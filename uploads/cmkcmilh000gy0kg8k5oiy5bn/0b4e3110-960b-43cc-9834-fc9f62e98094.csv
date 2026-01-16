@@ -1,0 +1,102 @@
+Posted,Transaction Description,Amount,Balance,Tag,Tag_Category
+05 01 25,Previous Balance,0.0,11418.58,99.UNASSIGNED,99.UNASSIGNED
+05 01 25,Zelle Instant On 0/01/2 PMT To Gon PMT ID=USB837NnsbJl $ .00,-5.0,11413.58,Expense - Zelle Pmt,Expense - Zelle Pmt
+05 01 25,Zelle Instant On 05/01/25 PMT To K PMT ID=USBD0jonscnI,-150.0,11263.58,Expense - Zelle Pmt,Expense - Zelle Pmt
+05 01 25,Recurring Debit Purchase GOOGLE *YouTube ************6345 On 043025 g.co/helppay CA REF # 24692165120100955748 US1 0100955748 .79,-88.79,11174.79,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+05 01 25,Recurring Debit Purchase RING STANDARD PL ************6345 On 050125 RING.COM CA REF # 244921651210023891 US1 10023891 $ .69,-10.69,11164.1,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+05 01 25,Electronic Withdrawal REF=251210023706580N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,10717.43,Expense - MCA - EBF,Expense - MCA Repayment
+05 02 25,Electronic Deposit REF=251200111185240Y00 From STATE OF NE 9NESWWNAS0ST PAYMENT845112539 $ .00,651.0,11368.43,Income - State of NE,Income - State of NE
+05 02 25,Recurring Debit Purchase BH* BETTERHELP ************6345 On 050125 BETTERHELP.C CA REF # 24000775121100023634 US1 1100023634 .00,-80.0,11288.43,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+05 02 25,Electronic Withdrawal REF=251220068015290N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,10841.76,Expense - MCA - EBF,Expense - MCA Repayment
+05 02 25,Zelle Instant On 05/02/25 PMT To Laurie PMT ID=USBps7JnstvC,-1000.0,9841.76,Expense - Zelle Pmt,Expense - Zelle Pmt
+05 02 25,Debit Purchase - VISA APF*100 Year Hom ************6345 On 050125 402-2902181 NE REF # 24906415121228279974519 1228279974,-3309.99,6531.77,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+05 05 25,Electronic Settlement REF=251250179808220Y00 From DDV GROUP LLC SETTLMT PFSINGLE PT,-2050.0,4481.77,Expense - DDV Settlement,Expense - DDV Settlement
+05 05 25,Electronic Withdrawal REF=251250116599010N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,4035.1,Expense - MCA - EBF,Expense - MCA Repayment
+05 05 25,Zelle Instant On 05/05/25 PMT From LFG COUNSELING LLC PMT ID=JPM99b7ceiof,3950.0,7985.1,Income - LFG Counselling,Income - LFG Counselling
+05 05 25,Recurring Debit Purchase WIX.COM 11760590 ************6345 On 050225 WWW.WIX.COM CA REF # 24011345123100010939 US1 3100010939,-348.0,7637.1,"Expense - WIX, GoDadday",Expense - Software and Subscriptions
+05 05 25,Debit Purchase - VISA UBER *EATS ************6345 On 050325 HELP.UBER.CO CA REF # 24036295123714737022428 3714737022,-111.22,7525.880000000001,Expense - Uber & UberEats,Expense - Travel and Entertainment
+05 05 25,Debit Purchase - VISA SUNPASS*ACC12728 ************6345 On 050325 888-865-5352 FL REF # 24055235124327094465873 4327094465 .00,-20.0,7505.880000000001,Expense - Car,Expense - Travel and Entertainment
+05 05 25,Debit Purchase UBR* PENDING.UBE ************6345 On 050325 San Francisc CA REF # 62315 05030241 09 .92,-8.92,7496.960000000001,Expense - Uber & UberEats,Expense - Travel and Entertainment
+05 06 25,Electronic Withdrawal REF=251260094155800N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,7050.290000000001,Expense - MCA - EBF,Expense - MCA Repayment
+05 06 25,Debit Purchase - VISA UBER *EATS ************6345 On 050525 HELP.UBER.CO CA REF # 24036295126742109111518 6742109111,-127.07,6923.220000000001,Expense - Uber & UberEats,Expense - Travel and Entertainment
+05 06 25,Debit Purchase UBER * EATS PEND ************6345 On 050525 San Francisc CA REF # 652161 05052013,-100.34,6822.880000000001,Expense - Uber & UberEats,Expense - Travel and Entertainment
+05 07 25,Electronic Deposit REF=251250192988740Y00 From STATE OF NE 9NESWWNAS0ST PAYMENT845112539,17225.0,24047.88,Income - State of NE,Income - State of NE
+05 07 25,Electronic Withdrawal REF=251260195823610N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,23601.21,Expense - MCA - EBF,Expense - MCA Repayment
+05 07 25,Debit Purchase - VISA CLCKPAY*MALTESE ************6345 On 050625 800-5337901 NY REF # 24239005126900018149387 6900018149,-5659.95,17941.260000000002,Expense - clckpay*maltese,Expense - Rent
+05 08 25,Debit Purchase UBER * EATS PEND ************6345 On 050725 San Francisc CA REF # 262997 05072003 45 .40,-43.4,17897.86,Expense - Uber & UberEats,Expense - Travel and Entertainment
+05 08 25,Electronic Withdrawal REF=251280046659520N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,17451.190000000002,Expense - MCA - EBF,Expense - MCA Repayment
+05 08 25,Recurring Debit Purchase UBER *ONE ************6345 On 050725 HELP.UBER.CO CA REF # 2403625128742405473 US1 8742405473 .,-9.99,17441.2,Expense - Uber & UberEats,Expense - Travel and Entertainment
+05 08 25,Recurring Debit Purchase DNH*GODADDY.COM ************6345 On 050725 480-505-8855 AZ REF # 24692165128104733419 US1 8104733419 .50,-14.5,17426.7,"Expense - WIX, GoDadday",Expense - Software and Subscriptions
+05 08 25,Debit Purchase UBER * EATS PEND ************6345 On 050825 San Francisc CA REF # 554868 05081448,-62.9,17363.800000000003,Expense - Uber & UberEats,Expense - Travel and Entertainment
+05 08 25,Debit Purchase UBER * EATS PEND ************6345 On 050725 San Francisc CA REF # 786720 05072009 23 .53,-119.53,17244.270000000004,Expense - Uber & UberEats,Expense - Travel and Entertainment
+05 09 25,Electronic Withdrawal REF=251290056825390N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,16797.600000000002,Expense - MCA - EBF,Expense - MCA Repayment
+05 09 25,Zelle Instant On 05/09/25 PMT To K PMT ID=USB7KfBnusA6,-250.0,16547.600000000002,Expense - Zelle Pmt,Expense - Zelle Pmt
+05 09 25,Recurring Debit Purchase HLU*HULUPLUS ************6345 On 050825 hulu.com/bil CA REF # 24906415128228807328 US1 8228807328,-99.49,16448.11,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+05 09 25,Recurring Debit Purchase APPLE.COM/BILL ************6345 On 050825 866-712-7753 CA REF # 246921651285222600 US1 85222600 .69,-10.69,16437.420000000002,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+05 09 25,Recurring Debit Purchase BH* BETTERHELP ************6345 On 050825 BETTERHELP.C CA REF # 24000775128100027747 US1 8100027747 .00,-80.0,16357.420000000002,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+05 12 25,Electronic Withdrawal REF=251320077317440N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,15910.750000000004,Expense - MCA - EBF,Expense - MCA Repayment
+05 12 25,ATM Fee Balance Inquiry At Other Network 100000001 .50,-2.5,15908.250000000004,Expense - ATM Fees,Expense - Bank Fees
+05 12 25,Mobile Banking Payment To Credit Card *************2154,-60.0,15848.250000000004,Expense - Pmts to Credit Card,Expense - Pmts to Credit Card
+05 12 25,Debit Purchase - VISA METROPOLITAN UTI ************6345 On 051025 402-554-6666 NE REF # 24036295130744805017555 0744805017,-315.0,15533.250000000004,Expense - Telecom,Expense - Utilities
+05 12 25,ATM Withdrawal ************6345 150 NW MIAMI GAR MIAMI GARDEN FL Serial No. 001507002536PLUSTERM,-310.0,15223.250000000004,Expense - ATM Withdrawal,Expense - ATM Withdrawal
+05 12 25,Debit Purchase - VISA COX OMAHA COMM S ************6345 On 051025 800-234-3993 NE REF # 24692165130107285326799 0107285326 .32,-225.32,14997.930000000002,Expense - Telecom,Expense - Utilities
+05 12 25,Debit Purchase - VISA TST*THE UPPER DE ************6345 On 050825 Hallandale B FL REF # 246921651291018993050 91018993 .81,-60.81,14937.120000000004,Expense - Business - Debit Purchases,Expense - Business - Debit Purchases
+05 12 25,Recurring Debit Purchase SXM*SIRIUSXM.COM ************6345 On 051125 888-635-5144 NY REF # 24692165131108071308 US1 1108071308,-48.64,14888.480000000003,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+05 12 25,Fee ATM Withdrawal At Other Network 10000655 $ .50,-2.5,14885.980000000003,Expense - ATM Fees,Expense - Bank Fees
+05 12 25,Electronic Deposit REF=251320136466890N00SD From LENDINGPOINT LLC 1823212345PAYMENT LAI001271175,25969.63,40855.61,Income - MCA Disbursal - LendingPoint,Income - MCA Disbursal
+05 12 25,Debit Purchase UBER * EATS PEND ************6345 On 051025 San Francisc CA REF # 769842 05102050,-23.25,40832.36,Expense - Uber & UberEats,Expense - Travel and Entertainment
+05 13 25,Electronic Settlement REF=251330058931120Y00 From DDV GROUP LLC SETTLMT PFSINGLE PT,-36346.67,4485.690000000004,Expense - DDV Settlement,Expense - DDV Settlement
+05 13 25,Electronic Withdrawal REF=251320206175370N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,4039.020000000004,Expense - MCA - EBF,Expense - MCA Repayment
+05 14 25,Electronic Withdrawal REF=251330070389880N00 To FPL DIRECT DEBIT 3590247775ELEC PYMT 6237068058 WEBI .46,-272.46,3766.560000000004,Expense - Electronic Withdrawal,Expense - Electronic Withdrawal
+05 14 25,Electronic Withdrawal REF=251330128399400N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,3319.890000000004,Expense - MCA - EBF,Expense - MCA Repayment
+05 14 25,Zelle Instant On 05/14/25 PMT To Maria PMT ID=USBmQRbnvSp1,-1200.0,2119.890000000005,Expense - Zelle Pmt,Expense - Zelle Pmt
+05 14 25,Zelle Instant On 0/14/2 Refund PMT To Gon PMT ID=USB837NnsbJl .00,5.0,2124.890000000005,Income - Zelle Receival,Income - Zelle Receival
+05 14 25,ATM Withdrawal ************6345 8201 NW 36TH ST MIAMI FL Serial No. 447533183600PLUSTERM,-1003.0,1121.8900000000049,Expense - ATM Withdrawal,Expense - ATM Withdrawal
+05 14 25,Fee ATM Withdrawal At Other Network 1400001487 .50,-2.5,1119.3900000000049,Expense - ATM Fees,Expense - Bank Fees
+05 14 25,Debit Purchase - VISA GLF*GolfNowReser ************6345 On 051325 844-8004653 FL REF # 24906415133229198567687 3229198567,-284.0,835.3900000000049,"Expense - Golf, Gym",Expense - Travel and Entertainment
+05 14 25,Analysis Service Charge 1400000000,-64.75,770.6400000000049,Expense - analysis service charge,Expense - analysis service charge
+05 15 25,Electronic Withdrawal REF=251350089779780N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,323.9700000000048,Expense - MCA - EBF,Expense - MCA Repayment
+05 16 25,Zelle Instant On 05/16/25 PMT From DAVID ALTERBAUM PMT ID=WFCT0YTKJZXP,1000.0,1323.9700000000048,Income - Zelle Receival,Income - Zelle Receival
+05 16 25,Electronic Withdrawal REF=251360105484210N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,877.3000000000047,Expense - MCA - EBF,Expense - MCA Repayment
+05 16 25,Recurring Debit Purchase BH* BETTERHELP ************6345 On 051525 BETTERHELP.C CA REF # 24000775135100028597 US1 5100028597 .00,-80.0,797.3000000000047,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+05 19 25,Zelle Instant On 05/18/25 PMT To K PMT ID=USBTHZbnx1Is,-100.0,697.3000000000047,Expense - Zelle Pmt,Expense - Zelle Pmt
+05 19 25,Electronic Withdrawal REF=251360198528400N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,250.63000000000463,Expense - MCA - EBF,Expense - MCA Repayment
+05 19 25,Debit Purchase - VISA GLF*GolfNowReser ************645 On 051725 844-800465 FL REF # 24906415172295181442 72295181,-3.0,247.63000000000463,"Expense - Golf, Gym",Expense - Travel and Entertainment
+05 19 25,Recurring Debit Purchase LA FITNESS ************6345 On 051725 949-255-8100 CA REF # 24692165137103199155 US1 7103199155 .99,-52.99,194.64000000000487,"Expense - Golf, Gym",Expense - Travel and Entertainment
+05 20 25,Debit Purchase - VISA GLF*GolfNowReser ************345 On 051925 844-800453 FL REF # 24904151392293000405 92293000,-6.0,188.64000000000487,"Expense - Golf, Gym",Expense - Travel and Entertainment
+05 20 25,Electronic Withdrawal REF=251400089301420N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,-258.0299999999952,Expense - MCA - EBF,Expense - MCA Repayment
+05 21 25,Overdraft Paid Fee,-36.0,-294.0299999999952,Expense - Overdraft Fees,Expense - Bank Fees
+05 21 25,Electronic Deposit REF=251390105278020Y00 From STATE OF NE 9NESWWNAS0ST PAYMENT845112539,186.0,-108.0299999999952,Income - State of NE,Income - State of NE
+05 22 25,Zelle Instant On 05/22/25 PMT To David PMT ID=USBhV08nyaD7,-1100.0,-1208.0299999999952,Expense - Zelle Pmt,Expense - Zelle Pmt
+05 22 25,Electronic Withdrawal REF=251420044904030N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,-1654.6999999999953,Expense - MCA - EBF,Expense - MCA Repayment
+05 22 25,Zelle Instant On 05/22/25 PMT To Laurie PMT ID=USBlBeAnyatA,-1200.0,-2854.6999999999957,Expense - Zelle Pmt,Expense - Zelle Pmt
+05 22 25,Zelle Instant On 05/22/25 PMT From LFG COUNSELING LLC PMT ID=JPM99b9ddwut,5950.0,3095.3000000000047,Income - LFG Counselling,Income - LFG Counselling
+05 22 25,Zelle Instant On 05/22/25 PMT To Laurie PMT ID=USBSWF5nyaCN,-300.0,2795.3000000000047,Expense - Zelle Pmt,Expense - Zelle Pmt
+05 23 25,Electronic Withdrawal REF=251430059656290N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,2348.6300000000047,Expense - MCA - EBF,Expense - MCA Repayment
+05 23 25,Zelle Instant On 05/23/25 PMT To Maria PMT ID=USBWMJKnyr0l,-1000.0,1348.6300000000049,Expense - Zelle Pmt,Expense - Zelle Pmt
+05 27 25,Electronic Withdrawal REF=251430156184520N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,901.9600000000046,Expense - MCA - EBF,Expense - MCA Repayment
+05 27 25,Electronic Withdrawal REF=251430156184510N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,455.2900000000045,Expense - MCA - EBF,Expense - MCA Repayment
+05 27 25,Electronic Withdrawal REF=251470083177710N00 To BRISTOL WEST INS 9496351321EFT PYMT 003000g01521533,-209.91,245.38000000000463,Expense - Insurance,Expense - Insurance
+05 27 25,ATM Withdrawal ************6345 4150 NORTH STATE HOLLYWOOD FL Serial No. 008015091957PLUSTERM .95,-507.95,-262.56999999999607,Expense - ATM Withdrawal,Expense - ATM Withdrawal
+05 27 25,ATM Withdrawal ************6345 4150 NORTH STATE HOLLYWOOD FL Serial No. 008016092047PLUSTERM .95,-507.95,-770.5199999999968,Expense - ATM Withdrawal,Expense - ATM Withdrawal
+05 27 25,Recurring Debit Purchase BH* BETTERHELP ************6345 On 052325 BETTERHELP.C CA REF # 24000775143100031418 US1 3100031418 .00,-80.0,-850.5199999999968,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+05 27 25,Debit Purchase UBER * EATS PEND ************6345 On 052325 San Francisc CA REF # 134590 05232034 07 .60,-31.6,-882.1199999999972,Expense - Uber & UberEats,Expense - Travel and Entertainment
+05 27 25,Fee ATM Withdrawal At Other Network 2700001901,-3.0,-885.1199999999972,Expense - ATM Fees,Expense - Bank Fees
+05 27 25,Fee ATM Withdrawal At Other Network 2700001900,-3.0,-888.1199999999972,Expense - ATM Fees,Expense - Bank Fees
+05 28 25,Zelle Instant On 05/28/25 PMT To K PMT ID=USBUU1FnzRAq,-1000.0,-1888.1199999999967,Expense - Zelle Pmt,Expense - Zelle Pmt
+05 28 25,Electronic Withdrawal REF=251470273210030N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,-2334.789999999997,Expense - MCA - EBF,Expense - MCA Repayment
+05 28 25,Electronic Withdrawal REF=251470273210020N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,-2781.4599999999973,Expense - MCA - EBF,Expense - MCA Repayment
+05 28 25,Overdraft Paid Fee,-36.0,-2817.4599999999973,Expense - Overdraft Fees,Expense - Bank Fees
+05 28 25,Electronic Deposit REF=251430115565630Y00 From STATE OF NE 9NESWWNAS0ST PAYMENT845112539,3069.0,251.5400000000027,Income - State of NE,Income - State of NE
+05 28 25,Overdraft Paid Fee,-36.0,215.5400000000027,Expense - Overdraft Fees,Expense - Bank Fees
+05 28 25,Overdraft Paid Fee,-36.0,179.5400000000027,Expense - Overdraft Fees,Expense - Bank Fees
+05 29 25,Electronic Withdrawal REF=251490074960480N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,-267.1299999999974,Expense - MCA - EBF,Expense - MCA Repayment
+05 30 25,ATM Withdrawal ************6345 4150 NORTH STATE HOLLYWOOD FL Serial No. 004223153424PLUSTERM,-507.95,-775.0799999999981,Expense - ATM Withdrawal,Expense - ATM Withdrawal
+05 30 25,Electronic Deposit REF=251480183474200Y00 From STATE OF NE 9NESWWNAS0ST PAYMENT845112539,4836.0,4060.920000000002,Income - State of NE,Income - State of NE
+05 30 25,Fee ATM Withdrawal At Other Network 000001144,-3.0,4057.920000000002,Expense - ATM Fees,Expense - Bank Fees
+05 30 25,Fee ATM Withdrawal At Other Network 000001145,-3.0,4054.920000000002,Expense - ATM Fees,Expense - Bank Fees
+05 30 25,Overdraft Paid Fee,-36.0,4018.920000000002,Expense - Overdraft Fees,Expense - Bank Fees
+05 30 25,Debit Purchase UBER * EATS PEND ************63 On 053025 San Francisc CA REF # 571676 05300630,-45.96,3972.960000000002,Expense - Uber & UberEats,Expense - Travel and Entertainment
+05 30 25,ATM Withdrawal ************6345 4150 NORTH STATE HOLLYWOOD FL Serial No. 004224153522PLUSTERM .95,-507.95,3465.010000000002,Expense - ATM Withdrawal,Expense - ATM Withdrawal
+05 30 25,Electronic Withdrawal REF=251500016005780N00 To EBF HOLDINGS RPP28556778006192943192895 .67,-446.67,3018.340000000002,Expense - MCA - EBF,Expense - MCA Repayment
+05 31 25,New Balance,0.0,3018.34,99.UNASSIGNED,99.UNASSIGNED

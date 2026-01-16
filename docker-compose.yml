@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: mca-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mca_user
+      POSTGRES_PASSWORD: mca_password
+      POSTGRES_DB: mca_underwriting
+    ports:
+      - '5434:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U mca_user -d mca_underwriting']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

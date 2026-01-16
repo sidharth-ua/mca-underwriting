@@ -1,0 +1,139 @@
+Posted,Transaction Description,Amount,Balance,Tag,Tag_Category
+07 01 25,Previous Balance,0.0,7188.71,99.UNASSIGNED,99.UNASSIGNED
+07 01 25,Recurring Debit Purchase GOOGLE *YouTube ************6345 On 063025 g.co/helppay CA REF # 24692165182100556694 US1 2100556,-88.79,7099.92,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+07 01 25,Zelle Instant On 07/01/25 PMT To Shoes PMT ID=USBM8LEnJv5L,-460.0,6639.92,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 01 25,Debit Purchase UBER * EATS PEND ************6345 On 070125 San Francisc CA REF # 503753 07011523,-49.97,6589.95,Expense - Uber & UberEats,Expense - Travel and Entertainment
+07 01 25,Recurring Debit Purchase RING STANDARD PL ************6345 On 070125 RING.COM CA REF # 24492165182100023263 US1 2100023263,-10.69,6579.26,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+07 01 25,Electronic Withdrawal REF=251820028112440N00 To EBF HOLDINGS RPP28556778006192943192895,-446.67,6132.59,Expense - MCA - EBF,Expense - MCA Repayment
+07 02 25,Electronic Withdrawal REF=251830112015610N00 To EBF HOLDINGS RPP28556778006192943192,-446.67,5685.92,Expense - MCA - EBF,Expense - MCA Repayment
+07 03 25,Electronic Withdrawal REF=251840064856120N00 To EBF HOLDINGS RPP28556778006192943192,-446.67,5239.25,Expense - MCA - EBF,Expense - MCA Repayment
+07 03 25,Recurring Debit Purchase CLCKPAY*MALTESE ************6345 On 070225 800-5337901 NY REF # 24239005183900013886 US1 3900013,-5659.95,-420.6999999999998,Expense - clckpay*maltese,Expense - Rent
+07 07 25,Electronic Withdrawal REF=251880125867980N00 To EBF HOLDINGS RPP28556778006192943192,-446.67,-867.3699999999999,Expense - MCA - EBF,Expense - MCA Repayment
+07 07 25,Overdraft Paid Fee 3900013,-36.0,-903.37,Expense - Overdraft Fees,Expense - Bank Fees
+07 07 25,Overdraft Paid Fee,-36.0,-939.37,Expense - Overdraft Fees,Expense - Bank Fees
+07 07 25,Zelle Instant On 07/07/25 PMT To Candice PMT ID=USBfumvnLd8Z,-500.0,-1439.37,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 07 25,Debit Purchase UBER *EATS ************6345 On 070325 San Francisc CA REF # 014273 07032258,-77.85,-1517.2200000000005,Expense - Uber & UberEats,Expense - Travel and Entertainment
+07 07 25,Zelle Instant On 07/07/25 PMT To Laura R PMT ID=USBwxbynLdE,-200.0,-1717.2200000000005,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 07 25,Zelle Instant On 07/07/25 PMT To Dmv PMT ID=USBayktnLdO,-400.0,-2117.2200000000003,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 07 25,Electronic Withdrawal REF=251880125867970N00 To EBF HOLDINGS RPP28556778006192943192,-446.67,-2563.8900000000003,Expense - MCA - EBF,Expense - MCA Repayment
+07 07 25,Zelle Instant On 07/07/25 PMT From LFG COUNSELING LLC PMT ID=JPM99bev86tl,6500.0,3936.11,Income - LFG Counselling,Income - LFG Counselling
+07 08 25,Zelle Instant On 07/08/25 PMT To Attorney PMT ID=USBvnbHnLuA,-500.0,3436.11,Expense - Legal,Expense - Professional Fees
+07 08 25,Recurring Debit Purchase UBER *ONE ************6345 On 070725 HELP.UBER.CO CA REF # 24036295189716144219 US1 9716144,-9.99,3426.12,Expense - Uber & UberEats,Expense - Travel and Entertainment
+07 08 25,Recurring Debit Purchase DNH*GODADDY.COM ************6345 On 070725 480-505-8855 AZ REF # 24692165189107082872 US1 9107082,-14.5,3411.62,"Expense - WIX, GoDadday",Expense - Software and Subscriptions
+07 08 25,Debit Purchase - VISA APF*100 Year Hom ************6345 On 070725 402-2902181 NE REF # 24906415188233330476942 8233330,-2009.99,1401.63,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 08 25,Electronic Withdrawal REF=251880308931130N00 To EBF HOLDINGS RPP28556778006192943192,-446.67,954.96,Expense - MCA - EBF,Expense - MCA Repayment
+07 09 25,Electronic Withdrawal REF=251890117440810N00 To EBF HOLDINGS RPP28556778006192943192,-446.67,508.29,Expense - MCA - EBF,Expense - MCA Repayment
+07 09 25,Electronic Withdrawal REF=251890071721370N00 To LENDINGPOINT LLC 1856315610PAYMENT LPT33635,-646.13,-137.84000000000017,Expense - MCA - LendingPoint,Expense - MCA Repayment
+07 09 25,Recurring Debit Purchase HLU*HULUPLUS ************6345 On 070825 hulu.com/bil CA REF # 24906415189233361401 US1 9233361,-99.49,-237.32999999999996,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+07 09 25,Recurring Debit Purchase APPLE.COM/BILL ************6345 On 070825 866-712-7753 CA REF # 24692165189107587773 US1 9107587,-10.69,-248.01999999999956,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+07 10 25,Overdraft Paid Fee,-36.0,-284.0199999999995,Expense - Overdraft Fees,Expense - Bank Fees
+07 10 25,Recurring Debit Purchase BH* BETTERHELP ************6345 On 070925 BETTERHELP.C CA REF # 24000775190100015108 US1 0100015,-80.0,-364.0199999999995,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+07 10 25,Electronic Withdrawal REF=251910087967400N00 To EBF HOLDINGS RPP28556778006192943192,-446.67,-810.6899999999996,Expense - MCA - EBF,Expense - MCA Repayment
+07 10 25,Zelle Instant On 07/10/25 PMT To David PMT ID=USBbJkpnM4Of,-1500.0,-2310.69,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 10 25,Zelle Instant On 07/10/25 PMT To Laurie PMT ID=USBB34MnM4NZ,-2000.0,-4310.69,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 10 25,Zelle Instant On 07/10/25 PMT From LAURIE GRASER PMT ID=39X0JFR7YTIL,1200.0,-3110.69,Income - Zelle Receival,Income - Zelle Receival
+07 10 25,"Wire Credit REF010576 ORG=EBF HOLDINGS, LLC WELLS SF 250710B018RR DBA EVEREST BUSINESS FUND",30654.6,27543.91,Income - MCA Disbursal - EBF,Income - MCA Disbursal
+07 11 25,Zelle Instant On 07/11/25 PMT To Laurie PMT ID=USBQ0krnMmWE,-800.0,26743.91,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 11 25,Debit Purchase 465450 ************6345 PETCO 1538 HALLANDALE BFL On 071125 ILNKILNK REF 519213465450 5007110,-47.06,26696.849999999995,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 11 25,Zelle Instant On 07/11/25 PMT To As PMT ID=USB6sFXnMlRc,-2100.0,24596.849999999995,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 11 25,Debit Purchase - VISA OMAHA PUBLIC POW ************6345 On 071025 402-636-3675 NE REF # 24036295191714550757289 1714550,-565.0,24031.849999999995,Expense - Business - Debit Purchases,Expense - Business - Debit Purchases
+07 11 25,Mobile Banking Payment To Credit Card *************2,-500.0,23531.849999999995,Expense - Pmts to Credit Card,Expense - Pmts to Credit Card
+07 11 25,Electronic Withdrawal REF=251910159764120N00 To EBF HOLDINGS LLC 1900922982EBF DEBIT 000000012092,-469.44,23062.41,Expense - MCA - EBF,Expense - MCA Repayment
+07 11 25,Zelle Instant On 07/11/25 PMT To Candice PMT ID=USBNrRSnMmVZ,-400.0,22662.41,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 11 25,Electronic Settlement REF=251920136233300Y00 From DDV GROUP LLC SETTLMT PFSINGLE PT,-21000.0,1662.4099999999953,Expense - DDV Settlement,Expense - DDV Settlement
+07 14 25,Electronic Withdrawal REF=251920191946780N00 To EBF HOLDINGS LLC 1900922982EBF DEBIT 000000012099,-469.44,1192.9699999999957,Expense - MCA - EBF,Expense - MCA Repayment
+07 14 25,Debit Purchase - VISA Nike US Stores ************6345 On 071225 Aventura FL REF # 24793385193002191859080 3002191,-101.65,1091.319999999996,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 14 25,Debit Purchase - VISA MMBILL.COM ************6345 On 071225 877-338-7068 CA REF # 24492605194017072707616 4017072,-159.99,931.3299999999964,Expense - MMBILL,Expense - Personal - Debit Purchases
+07 14 25,Debit Purchase - VISA ZARA USA 12063 ************6345 On 071225 AVENTURA FL REF # 24941445194052052013881 4052052,-150.55,780.7799999999961,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 14 25,Debit Purchase - VISA COCOS HAIR SALON ************6345 On 071325 AVENTURA FL REF # 24116415195406254785202 5406254,-120.7,660.0799999999963,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 14 25,Debit Purchase - VISA FACEBK *9JZWYU86 ************6345 On 071125 650-5434800 CA REF # 24793385193000901580053 3000901,-118.0,542.0799999999963,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 14 25,Debit Purchase - VISA COX OMAHA COMM S ************6345 On 071025 800-234-3993 NE REF # 24692165192100481638161 2100481,-114.61,427.4699999999966,Expense - Telecom,Expense - Utilities
+07 14 25,Debit Purchase - VISA COX OMAHA COMM S ************6345 On 071025 800-234-3993 NE REF # 24692165192100049168347 2100049,-114.61,312.85999999999694,Expense - Telecom,Expense - Utilities
+07 14 25,Debit Purchase 032076 ************6345 MACY'S AVENTURA FL On 071325 MAESTERM REF 032,-79.29,233.56999999999695,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 14 25,Debit Purchase - VISA SP ALO-YOGA ************6345 On 071225 132-32487531 CA REF # 24011345194100058554163 4100058,-72.76,160.80999999999676,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 14 25,Debit Purchase - VISA SP SKIMS ************6345 On 071225 188-87575467 CA REF # 24011345194100065024846 4100065,-55.64,105.16999999999643,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 14 25,Recurring Debit Purchase SXM*SIRIUSXM.COM ************6345 On 071125 888-635-5144 NY REF # 24692165192100569961 US1 2100569,-48.64,56.52999999999611,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+07 14 25,Debit Purchase - VISA ZARA USA 12063 ************6345 On 071225 AVENTURA FL REF # 24941445194052051030860 4052051,-38.41,18.119999999996253,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 14 25,Debit Purchase - VISA SQ *CHOCOLATE ON ************6345 On 071225 aventura FL REF # 24692165194102036802282 4102036,-17.1,1.019999999995889,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 14 25,Debit Purchase - VISA STARBUCKS 08550 ************6345 On 071125 HALLANDALE FL REF # 24445005193500816037277 3500816,-5.23,-4.210000000003674,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 14 25,Debit Purchase - VISA METROPOLITAN UTI ************6345 On 071025 402-554-6666 NE REF # 24036295192714564006789 2714564,-242.0,-246.21000000000367,Expense - Telecom,Expense - Utilities
+07 15 25,Analysis Service Charge 1500000,-79.65,-325.8600000000033,Expense - analysis service charge,Expense - analysis service charge
+07 15 25,Electronic Withdrawal REF=251950177225910N00 To EBF HOLDINGS LLC 1900922982EBF DEBIT 000000012106,-469.44,-795.3000000000029,Expense - MCA - EBF,Expense - MCA Repayment
+07 15 25,Overdraft Paid Fee,-36.0,-831.3000000000029,Expense - Overdraft Fees,Expense - Bank Fees
+07 15 25,Zelle Instant On 07/15/25 PMT From DAVID ALTERBAUM PMT ID=WFCT0Z2KS3CP,1000.0,168.6999999999971,Income - Zelle Receival,Income - Zelle Receival
+07 16 25,Debit Purchase - VISA MMBILL.COM ************6345 On 071425 877-338-7068 CA REF # 24492605196017027844884 6017027,-159.99,8.709999999997308,Expense - MMBILL,Expense - Personal - Debit Purchases
+07 16 25,Electronic Withdrawal REF=251960202255520N00 To EBF HOLDINGS LLC 1900922982EBF DEBIT 000000012113,-469.44,-460.7300000000023,Expense - MCA - EBF,Expense - MCA Repayment
+07 17 25,Zelle Instant On 07/17/25 PMT To David PMT ID=USB0kpdnO,-1000.0,-1460.7300000000023,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 17 25,Wire Credit REF007573 ORG=ALEX MORNINGSTAR WELLS SF 250717B01L3K CORP. 2000 HOLLYWOOD BLVD,20000.0,18539.27,Income - Wire from ALEX MORNINGSTAR WELLS,Income - Wired Inflow
+07 17 25,Debit Purchase Uber Technologie ************6345 On 071625 Wilmington DE REF # 041254 07161847,-49.48,18489.79,Expense - Uber & UberEats,Expense - Travel and Entertainment
+07 17 25,Recurring Debit Purchase BH* BETTERHELP ************6345 On 071625 BETTERHELP.C CA REF # 24000775197100018072 US1 7100018,-80.0,18409.79,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+07 17 25,Overdraft Paid Fee 6017027,-36.0,18373.79,Expense - Overdraft Fees,Expense - Bank Fees
+07 17 25,Overdraft Paid Fee,-36.0,18337.79,Expense - Overdraft Fees,Expense - Bank Fees
+07 17 25,Electronic Withdrawal REF=251970149415090N00 To EBF HOLDINGS LLC 1900922982EBF DEBIT 000000012119,-469.44,17868.35,Expense - MCA - EBF,Expense - MCA Repayment
+07 17 25,Electronic Settlement REF=251980118994490Y00 From DDV GROUP LLC SETTLMT PFSINGLE PT,-12000.0,5868.349999999998,Expense - DDV Settlement,Expense - DDV Settlement
+07 18 25,Zelle Instant On 07/18/25 PMT To Candice PMT ID=USBa8swnOkJu,-400.0,5468.349999999998,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 18 25,Electronic Withdrawal REF=251980133173720N00 To EBF HOLDINGS LLC 1900922982EBF DEBIT 000000012126,-469.44,4998.909999999998,Expense - MCA - EBF,Expense - MCA Repayment
+07 18 25,Recurring Debit Purchase LA FITNESS ************6345 On 071725 949-255-8100 CA REF # 24692165198105974417 US1 8105974,-52.99,4945.919999999998,"Expense - Golf, Gym",Expense - Travel and Entertainment
+07 18 25,Zelle Instant On 07/18/25 PMT To Laurie PMT ID=USBTNCknOkUU,-700.0,4245.919999999998,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 18 25,Debit Purchase - VISA MIAMI JUICE ************6345 On 071725 305-9450444 FL REF # 24540455199010601274932 9010601,-40.45,4205.4699999999975,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 18 25,Zelle Instant On 07/18/25 PMT To Maria PMT ID=USB1lQInOkJE,-500.0,3705.469999999998,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 21 25,Debit Purchase - VISA SQ *CHOCOLATE ON ************6345 On 072025 aventura FL REF # 24692165201109246781934 1109246,-17.11,3688.359999999998,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 21 25,Debit Purchase - VISA STARBUCKS STORE ************6345 On 071925 HALLANDALE B FL REF # 24692165201108920231752 1108920,-4.26,3684.0999999999976,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 21 25,Debit Purchase - VISA TB ISLE AVENT MA ************6345 On 071925 AVENTURA FL REF # 24692165201108893409278 1108893,-429.02,3255.0799999999977,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 21 25,Debit Purchase - VISA EATALY MIAMI RIS ************6345 On 072025 AVENTURA FL REF # 24943005202250205189760 2250205,-133.56,3121.5199999999977,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 21 25,Debit Purchase - VISA SQ *NAUGHTY COFF ************6345 On 072025 Aventura FL REF # 24692165201109232577015 1109232,-7.42,3114.0999999999976,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 21 25,Debit Purchase 724497 ************6345 VICTORIA'S SECRE AVENTURA FL On 072025 ILK1TERM REF 520115724497 9707201,-42.8,3071.299999999997,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 21 25,Debit Purchase 647004 ************6345 ABERCROMBIE & FI AVENTURA FL On 072025 ILNKILNK REF 520119647004 0407201,-64.2,3007.0999999999976,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 21 25,Zelle Instant On 07/20/25 PMT To Lra PMT ID=USBxHOknOWfr,-150.0,2857.0999999999976,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 21 25,Zelle Instant On 07/20/25 PMT To Maria PMT ID=USB3FWfnOUc,-300.0,2557.0999999999976,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 21 25,Electronic Withdrawal REF=251990165246700N00 To EBF HOLDINGS LLC 1900922982EBF DEBIT 000000012133,-469.44,2087.659999999998,Expense - MCA - EBF,Expense - MCA Repayment
+07 21 25,Debit Purchase - VISA STARBUCKS STORE ************6345 On 071825 HALLANDALE B FL REF # 24692165200107957727485 0107957,-4.26,2083.399999999998,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 22 25,Debit Purchase - VISA ZARA USA 12063 ************6345 On 072025 AVENTURA FL REF # 24941445202053155008299 2053155,-96.19,1987.2099999999984,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 22 25,Debit Purchase - VISA TST* MADO ************6345 On 072025 AVENTURA FL REF # 24137465202501039501899 2501039,-15.25,1971.9599999999984,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 22 25,Debit Purchase - VISA MACYS 769 AVT SB ************6345 On 072025 AVENTURA FL REF # 24755425202162020470654 2162020,-5.98,1965.9799999999989,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 22 25,Electronic Withdrawal REF=252020237428440N00 To EBF HOLDINGS LLC 1900922982EBF DEBIT 000000012140,-469.44,1496.539999999999,Expense - MCA - EBF,Expense - MCA Repayment
+07 23 25,Debit Purchase - VISA LIFE'S ABUNDANCE ************6345 On 072225 877-387-4564 FL REF # 24116415203716140546661 3716140,-151.6,1344.9399999999987,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 23 25,Debit Purchase 739014 ************6345 EATALY MIAMI CA AVENTURA FL On 072325 MAESTERM REF 739,-21.09,1323.8499999999983,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 23 25,Electronic Withdrawal REF=252030147745970N00 To EBF HOLDINGS LLC 1900922982EBF DEBIT 000000012147,-469.44,854.409999999999,Expense - MCA - EBF,Expense - MCA Repayment
+07 23 25,Debit Purchase - VISA CITY OF MIAMI BE ************6345 On 072225 305-673-7000 FL REF # 24210735204090230109813 4090230,-8.65,845.7599999999993,Expense - Business - Debit Purchases,Expense - Business - Debit Purchases
+07 24 25,Debit Purchase 775476 ************6345 SEPHORA AVENTURA AVENTURA FL On 072325 ILK1TERM REF 520417775476 7607231,-67.41,778.3499999999995,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 24 25,Debit Purchase - VISA adidas 6583 Aven ************6345 On 072325 Aventura FL REF # 24204295204001871356061 4001871,-16.05,762.2999999999993,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 24 25,Debit Purchase - VISA SQ *NAUGHTY COFF ************6345 On 072325 Aventura FL REF # 24692165204101865872398 4101865,-16.31,745.9899999999989,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 24 25,Debit Purchase - VISA TST*CARROT EXPRE ************6345 On 072325 Aventura FL REF # 24692165204101959370085 4101959,-25.32,720.6699999999992,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 24 25,Electronic Withdrawal REF=252040181893940N00 To EBF HOLDINGS LLC 1900922982EBF DEBIT 000000012154,-469.44,251.2299999999996,Expense - MCA - EBF,Expense - MCA Repayment
+07 24 25,Recurring Debit Purchase BH* BETTERHELP ************6345 On 072325 BETTERHELP.C CA REF # 24000775204100017524 US1 4100017,-80.0,171.22999999999956,"Expense - Youtube, Ring, BetterHelp, Apple, Hulu, Siriusxm",Expense - Software and Subscriptions
+07 25 25,Overdraft Paid Fee,-36.0,135.22999999999956,Expense - Overdraft Fees,Expense - Bank Fees
+07 25 25,Electronic Withdrawal REF=252050176474830N00 To BRISTOL WEST INS 9496351321EFT PYMT 003000g01521,-205.7,-70.47000000000025,Expense - Insurance,Expense - Insurance
+07 25 25,Zelle Instant On 07/25/25 PMT To Laurie PMT ID=USBsa62nQl2d,-1000.0,-1070.4700000000005,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 25 25,Mobile Banking Payment To Credit Card *************2,-1000.0,-2070.4700000000003,Expense - Pmts to Credit Card,Expense - Pmts to Credit Card
+07 25 25,Zelle Instant On 07/25/25 PMT To Luis PMT ID=USBZIFSnQl2T,-1200.0,-3270.4700000000003,Expense - Zelle Pmt,Expense - Zelle Pmt
+07 25 25,Zelle Instant On 07/25/25 PMT From LFG COUNSELING LLC PMT ID=JPM99bgzh3u,6750.0,3479.53,Income - LFG Counselling,Income - LFG Counselling
+07 25 25,Electronic Withdrawal REF=252050193032480N00 To EBF HOLDINGS LLC 1900922982EBF DEBIT 000000012161,-469.44,3010.09,Expense - MCA - EBF,Expense - MCA Repayment
+07 25 25,Recurring Debit Purchase VERIZONWRLSS*RTC ************6345 On 072325 800-922-0204 FL REF # 24692165205102297112 US1 5102297,-400.0,2610.09,Expense - Telecom,Expense - Utilities
+07 28 25,Debit Purchase 160867 ************6345 VICTORIA'S SECRE AVENTURA FL On 072725 ILK1TERM REF 520815160867 6707271,-42.75,2567.34,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase - VISA H&M 0276MIAMI ************6345 On 072625 MIAMI FL REF # 24692165208105203687554 8105203,-45.99,2521.3500000000004,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase - VISA A LO CUBANA TROP ************6345 On 072725 HIALEAH FL REF # 24223695208027015761787 8027015,-8.9,2512.4500000000007,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase 511096 ************6345 LA PETITE PEPITE AVENTURA FL On 072625 MAESTERM REF 511,-9.79,2502.6600000000008,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase - VISA TST* MASSE BY BA ************6345 On 072625 AVENTURA FL REF # 24137465208501270260084 8501270,-10.24,2492.420000000001,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase - VISA SQ *NAUGHTY COFF ************6345 On 072625 Aventura FL REF # 24692165207104688511158 7104688,-16.31,2476.1100000000006,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase 526727 ************6345 CVS/PHARM 10078- HALLANDALE BFL On 072725 MAESTERM REF 526,-39.83,2436.2800000000007,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Electronic Withdrawal REF=252060192253270N00 To EBF HOLDINGS LLC 1900922982EBF DEBIT 000000012168,-469.44,1966.840000000001,Expense - MCA - EBF,Expense - MCA Repayment
+07 28 25,Debit Purchase 247815 ************6345 VICTORIA'S SECRE AVENTURA FL On 072725 ILNKILNK REF 520815247815 1507271,-42.75,1924.090000000001,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase Ret - VISA Nike US Stores ************6345 On 071225 Aventura FL REF # 74793385208001576258 US1 8001576258 20.33 Card Number: xxxx-xxxx-xxxx-6,20.33,1944.420000000001,Expense Reversal - Debit Purchases,Expense Reversal - Debit Purchases
+07 28 25,Debit Purchase 563543 ************6345 HOLLISTER #712 1 AVENTURA FL On 072725 ILNKILNK REF 520821563543 4307271,-69.44,1874.9800000000012,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase 032909 ************6345 NORDSTROM #0774 AVENTURA FL On 072625 ILK1TERM REF 520720032909 0907261,-69.55,1805.4300000000007,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase 515077 ************6345 GAP US 6312 AVENTURA FL On 072725 ILK1TERM REF 520814515077 7707271,-83.41,1722.0200000000011,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase - VISA ZARA USA 12063 ************6345 On 072625 AVENTURA FL REF # 24941445208054014018317 8054014,-85.49,1636.5300000000016,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase - VISA Garage ************6345 On 072625 Aventura FL REF # 24793385207003862270072 7003862,-98.44,1538.090000000002,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase 039151 ************6345 ABERCROMBIE & FI AVENTURA FL On 072725 ILNKILNK REF 520820039151 5107271,-105.93,1432.1600000000017,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase 403963 ************6345 CALZEDONIA USA MIAMI FL On 072725 ILK1TERM REF 520818403963 6307271,-106.25,1325.9100000000017,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase - VISA ZARA USA 12063 ************6345 On 072625 AVENTURA FL REF # 24941445208054014020800 8054014,-110.95,1214.960000000002,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase 042263 ************6345 PACSUN #1232 AVENTURA FL On 072625 MAESTERM REF 042,-134.66,1080.300000000002,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase - VISA SP FASHIONNOVA.C ************6345 On 072525 FASHIONNOVA. CA REF # 24000775207100012731879 7100012,-283.45,796.8500000000022,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase - VISA APF*100 Year Hom ************6345 On 072525 402-2902181 NE REF # 24906415206234678415219 6234678,-1709.99,-913.1399999999976,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 28 25,Debit Purchase Return 051914 BLOOMYS AVENTURA FL On 072625 MAESTERM REF 051914 364.34 Card Number: xxxx-xxxx-xxxx-6,364.34,-548.7999999999975,Expense Reversal - Debit Purchases,Expense Reversal - Debit Purchases
+07 28 25,Debit Purchase Return 053211 MACY'S AVENTURA FL On 072625 MAESTERM REF 053211,293.18,-255.6199999999972,Expense Reversal - Debit Purchases,Expense Reversal - Debit Purchases
+07 29 25,Debit Purchase - VISA ZARA USA 12063 ************6345 On 072725 AVENTURA FL REF # 24941445209054126023949 9054126,-4.28,-259.8999999999969,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 29 25,Debit Purchase - VISA GABY BY CALL ME ************6345 On 072725 305-6041999 FL REF # 24000975209142907421764 9142907,-146.45,-406.3499999999967,Expense - Personal - Debit Purchases,Expense - Personal - Debit Purchases
+07 29 25,Overdraft Paid Fee,-36.0,-442.3499999999967,Expense - Overdraft Fees,Expense - Bank Fees
+07 31 25,New Balance,0.0,-442.35,99.UNASSIGNED,99.UNASSIGNED

@@ -1,0 +1,83 @@
+Posted,Transaction Description,Amount,Balance,Tag,Tag_Category
+08 01 25,Previous Balance,0.0,-442.35,99.UNASSIGNED,99.UNASSIGNED
+08 01 25,State of Ne,7347.0,6904.65,Income - State of NE,Income - State of NE
+08 01 25,Zelle Instant Pmt To Luis,-1150.0,5754.65,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 01 25,Zelle Instant Pmt To Laurie,-1700.0,4054.65,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 01 25,Ebf Holdings,-469.44,3585.21,Expense - MCA - EBF,Expense - MCA Repayment
+08 04 25,State of Ne,1395.0,4980.209999999999,Income - State of NE,Income - State of NE
+08 04 25,Zelle Instant Pmt To Lra,-250.0,4730.209999999999,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 04 25,Zelle Instant Pmt To Mo,-500.0,4230.209999999999,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 04 25,Zelle Instant Pmt To Lra,-100.0,4130.209999999999,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 04 25,Zelle Instant Pmt To Lra,-3100.0,1030.2099999999996,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 04 25,Zelle Instant Pmt From Lfg Counseling Llc,6700.0,7730.209999999999,Income - LFG Counselling,Income - LFG Counselling
+08 04 25,YouTube,-88.79,7641.419999999999,"Expense - Youtube, Ring, Facebook, Stubhub, Unikabalah",Expense - Software and Subscriptions
+08 04 25,Publix,-120.13,7521.289999999999,Expense - Restaurants,Expense - Travel and Entertainment
+08 04 25,Ebf Holdings,-469.44,7051.849999999999,Expense - MCA - EBF,Expense - MCA Repayment
+08 04 25,Sprouts Farmers Market,-48.04,7003.81,Expense - Restaurants,Expense - Travel and Entertainment
+08 05 25,Ebf Holdings,-469.44,6534.37,Expense - MCA - EBF,Expense - MCA Repayment
+08 06 25,Wendy’s,-17.42,6516.95,Expense - Restaurants,Expense - Travel and Entertainment
+08 06 25,Clickpay Maltese,-5659.95,857.0000000000003,Expense - clckpay*maltese,Expense - Rent
+08 06 25,Facebook,-98.43,758.5700000000003,"Expense - Youtube, Ring, Facebook, Stubhub, Unikabalah",Expense - Software and Subscriptions
+08 06 25,Ebf Holdings,-469.44,289.1300000000002,Expense - MCA - EBF,Expense - MCA Repayment
+08 07 25,State of Ne,22491.0,22780.13,Income - State of NE,Income - State of NE
+08 07 25,Zelle Instant Pmt To David,-1600.0,21180.13,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 07 25,Zelle Instant Pmt To Luis,-1100.0,20080.13,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 07 25,Ebf Holdings,-469.44,19610.69,Expense - MCA - EBF,Expense - MCA Repayment
+08 08 25,Unknown Set of Transactions,-15933.24,3677.450000000001,Expense - Unknown Set of Transactions,Expense - Unknown Set of Transactions
+08 12 25,Ring,-10.69,3666.7600000000016,"Expense - Youtube, Ring, Facebook, Stubhub, Unikabalah",Expense - Software and Subscriptions
+08 12 25,Uber,-75.88,3590.880000000001,Expense - Uber & UberEats,Expense - Travel and Entertainment
+08 12 25,Ebf Holdings,-469.44,3121.4400000000014,Expense - MCA - EBF,Expense - MCA Repayment
+08 13 25,State of Ne,2790.0,5911.4400000000005,Income - State of NE,Income - State of NE
+08 13 25,Uber Eats,-44.49,5866.950000000001,Expense - Uber & UberEats,Expense - Travel and Entertainment
+08 13 25,Ebf Holdings,-469.44,5397.510000000001,Expense - MCA - EBF,Expense - MCA Repayment
+08 13 25,Uber Eats,-66.88,5330.630000000001,Expense - Uber & UberEats,Expense - Travel and Entertainment
+08 14 25,State of Ne,2325.0,7655.630000000001,Income - State of NE,Income - State of NE
+08 14 25,Zelle Instant Pmt To Lra,-300.0,7355.630000000001,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 14 25,Service Charge,-94.14,7261.490000000001,Expense - analysis service charge,Expense - analysis service charge
+08 15 25,Unknown Set of Transactions,-4360.49,2901.0000000000014,Expense - Unknown Set of Transactions,Expense - Unknown Set of Transactions
+08 15 25,Metropolitan Uti,-315.0,2586.0000000000014,Expense - Telecom,Expense - Utilities
+08 15 25,Uber,-48.95,2537.050000000001,Expense - Uber & UberEats,Expense - Travel and Entertainment
+08 15 25,Uber,-38.69,2498.360000000001,Expense - Uber & UberEats,Expense - Travel and Entertainment
+08 15 25,Ebf Holdings,-469.44,2028.9200000000012,Expense - MCA - EBF,Expense - MCA Repayment
+08 15 25,PetSmart,-239.58,1789.3400000000015,Expense - PetSmart,Expense - Misc
+08 15 25,Rotisserie Coral Springfl,-63.58,1725.7600000000016,"Expense - Youtube, Ring, Facebook, Stubhub, Unikabalah",Expense - Software and Subscriptions
+08 15 25,Publix,-3.52,1722.2400000000016,Expense - Restaurants,Expense - Travel and Entertainment
+08 18 25,State of Ne,2790.0,4512.240000000002,Income - State of NE,Income - State of NE
+08 18 25,Zelle Instant Pmt to xxx,-1700.0,2812.240000000002,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 18 25,Unknown Set of Transactions,-445.41,2366.830000000002,Expense - Unknown Set of Transactions,Expense - Unknown Set of Transactions
+08 18 25,StubHub!,-72.57,2294.260000000002,"Expense - Youtube, Ring, Facebook, Stubhub, Unikabalah",Expense - Software and Subscriptions
+08 18 25,StubHub! ,-694.74,1599.5200000000018,"Expense - Youtube, Ring, Facebook, Stubhub, Unikabalah",Expense - Software and Subscriptions
+08 18 25,McDonald’s,-11.31,1588.210000000002,Expense - Restaurants,Expense - Travel and Entertainment
+08 18 25,LA Fitness,-52.99,1535.220000000002,"Expense - Golf, Gym",Expense - Travel and Entertainment
+08 18 25,Uber,-99.44,1435.780000000002,Expense - Uber & UberEats,Expense - Travel and Entertainment
+08 18 25,Uber,-116.24,1319.5400000000018,Expense - Uber & UberEats,Expense - Travel and Entertainment
+08 18 25,Ebf Holdings,-469.44,850.1000000000018,Expense - MCA - EBF,Expense - MCA Repayment
+08 19 25,State of Ne,2790.0,3640.1000000000017,Income - State of NE,Income - State of NE
+08 19 25,Zelle Instant Pmt To Maria,-1200.0,2440.1000000000017,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 19 25,Zelle Instant Pmt To Lra,-220.0,2220.1000000000017,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 19 25,Ebf Holdings,-469.44,1750.6600000000017,Expense - MCA - EBF,Expense - MCA Repayment
+08 20 25,Unknown Set of Transactions,-299.68,1450.9800000000014,Expense - Unknown Set of Transactions,Expense - Unknown Set of Transactions
+08 20 25,Domaselo,-13.0,1437.9800000000014,Expense - Restaurants,Expense - Travel and Entertainment
+08 20 25,Starbucks,-10.91,1427.0700000000015,Expense - Restaurants,Expense - Travel and Entertainment
+08 20 25,Hotwire,-95.81,1331.2600000000016,Expense - Hotwire,Expense - Travel and Entertainment
+08 20 25,Tenorshare Hong Kong,-60.01,1271.2500000000014,Expense - Tenorshare,Expense - Software and Subscriptions
+08 20 25,Processing Fee,-1.8,1269.4500000000016,Expense - Processing Fees,Expense - Bank Fees
+08 20 25,Ebf Holdings,-469.44,800.0100000000015,Expense - MCA - EBF,Expense - MCA Repayment
+08 21 25,State of Ne,3162.0,3962.0100000000016,Income - State of NE,Income - State of NE
+08 21 25,Unikabalah Kabalahufl ,-18.0,3944.0100000000016,"Expense - Youtube, Ring, Facebook, Stubhub, Unikabalah",Expense - Software and Subscriptions
+08 21 25,Uber Cilantro as ,-61.9,3882.110000000002,Expense - Uber & UberEats,Expense - Travel and Entertainment
+08 21 25,Ebf Holdings,-469.44,3412.670000000002,Expense - MCA - EBF,Expense - MCA Repayment
+08 22 25,Unknown Set of Transactions,-3005.6,407.0700000000018,Expense - Unknown Set of Transactions,Expense - Unknown Set of Transactions
+08 22 25,Ebf Holdings,-469.44,-62.36999999999813,Expense - MCA - EBF,Expense - MCA Repayment
+08 25 25,Bristol West,-202.83,-265.1999999999981,Expense - Insurance,Expense - Insurance
+08 26 25,Overdraft Fee ,-36.0,-301.1999999999981,Expense - Overdraft Fees,Expense - Bank Fees
+08 26 25,Overdraft Fee,-36.0,-337.1999999999981,Expense - Overdraft Fees,Expense - Bank Fees
+08 26 25,Adjustment Maestro on All,-45.5,-382.6999999999981,Expense - Business - Debit Purchases,Expense - Business - Debit Purchases
+08 27 25,Electronic Deposit State Of Ne,18940.0,18557.300000000003,Income - State of NE,Income - State of NE
+08 27 25,Zelle Instant Pmt To Luis,-1200.0,17357.300000000003,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 27 25,Zelle Instant Pmt To Laurie,-800.0,16557.300000000003,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 27 25,Zelle Instant Pmt To Candice,-5000.0,11557.3,Expense - Zelle Pmt,Expense - Zelle Pmt
+08 27 25,Ebf Holdings,-469.44,11087.86,Expense - MCA - EBF,Expense - MCA Repayment
+08 28 25,Electronic Deposit State Of Ne,13857.0,24944.86,Income - State of NE,Income - State of NE
+08 28 25,Ebf Holdings,-469.44,24475.42,Expense - MCA - EBF,Expense - MCA Repayment
+08 31 25,New Balance,0.0,24475.42,99.UNASSIGNED,99.UNASSIGNED

@@ -1,0 +1,233 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model for authentication and authorization
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  role      UserRole @default(UNDERWRITER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  assignedDeals Deal[]         @relation("AssignedDeals")
+  notes         DealNote[]
+  activities    DealActivity[]
+
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  UNDERWRITER
+  VIEWER
+}
+
+// Deal model - main entity representing a merchant application
+model Deal {
+  id            String       @id @default(cuid())
+  merchantName  String
+  status        DealStatus   @default(NEW)
+  decision      Decision?
+  decisionNotes String?
+  assignedToId  String?
+  assignedTo    User?        @relation("AssignedDeals", fields: [assignedToId], references: [id])
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  documents  Document[]
+  metrics    DealMetrics?
+  notes      DealNote[]
+  activities DealActivity[]
+
+  @@map("deals")
+}
+
+enum DealStatus {
+  NEW
+  PROCESSING
+  READY
+  REVIEWED
+  DECIDED
+}
+
+enum Decision {
+  APPROVED
+  DECLINED
+  MORE_INFO
+}
+
+// Document model - uploaded PDF bank statements
+model Document {
+  id           String         @id @default(cuid())
+  dealId       String
+  deal         Deal           @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  filename     String
+  originalName String
+  mimeType     String
+  size         Int
+  status       DocumentStatus @default(UPLOADED)
+  filePath     String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  bankAccounts BankAccount[]
+
+  @@map("documents")
+}
+
+enum DocumentStatus {
+  UPLOADED
+  PARSING
+  PARSED
+  TAGGING
+  TAGGED
+  READY
+  ERROR
+}
+
+// BankAccount model - parsed bank account information
+model BankAccount {
+  id            String   @id @default(cuid())
+  documentId    String
+  document      Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  bankName      String
+  accountNumber String?
+  accountType   String?
+  startDate     DateTime?
+  endDate       DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  transactions Transaction[]
+
+  @@map("bank_accounts")
+}
+
+// Transaction model - individual bank transactions
+model Transaction {
+  id             String      @id @default(cuid())
+  bankAccountId  String
+  bankAccount    BankAccount @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
+  date           DateTime
+  description    String
+  amount         Float
+  type           TransactionType
+  runningBalance Float?
+  category       String?
+  subcategory    String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@index([bankAccountId])
+  @@index([date])
+  @@index([category])
+  @@map("transactions")
+}
+
+enum TransactionType {
+  CREDIT
+  DEBIT
+}
+
+// DealMetrics model - cached calculated metrics
+model DealMetrics {
+  id     String @id @default(cuid())
+  dealId String @unique
+  deal   Deal   @relation(fields: [dealId], references: [id], onDelete: Cascade)
+
+  // Revenue metrics
+  totalRevenue          Float?
+  averageMonthlyRevenue Float?
+  revenueTrend          Float?
+  revenueConsistency    Float?
+
+  // Expense metrics
+  totalExpenses        Float?
+  expenseToRevenueRatio Float?
+  ownerWithdrawals     Float?
+
+  // MCA/Debt metrics
+  activeMcaCount       Int?
+  dailyMcaObligation   Float?
+  debtToRevenueRatio   Float?
+  stackingStatus       StackingStatus?
+
+  // Risk metrics
+  nsfCount            Int?
+  negativeBalanceDays Int?
+  lowestBalance       Float?
+  redFlagCount        Int?
+
+  // Scores (0-100)
+  revenueScore Float?
+  expenseScore Float?
+  debtScore    Float?
+  riskScore    Float?
+  overallScore Float?
+
+  // Risk tier
+  riskTier   RiskTier?
+  verdict    Verdict?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("deal_metrics")
+}
+
+enum StackingStatus {
+  CLEAN
+  STACKED
+  HEAVY
+}
+
+enum RiskTier {
+  A
+  B
+  C
+  D
+}
+
+enum Verdict {
+  APPROVE
+  CAUTION
+  DECLINE
+}
+
+// DealNote model - underwriter notes
+model DealNote {
+  id        String   @id @default(cuid())
+  dealId    String
+  deal      Deal     @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([dealId])
+  @@map("deal_notes")
+}
+
+// DealActivity model - audit trail
+model DealActivity {
+  id        String   @id @default(cuid())
+  dealId    String
+  deal      Deal     @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  action    String
+  details   String?
+  createdAt DateTime @default(now())
+
+  @@index([dealId])
+  @@map("deal_activities")
+}
