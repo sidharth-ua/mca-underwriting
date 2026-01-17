@@ -12,9 +12,9 @@ import {
   Loader2,
   Upload,
   Trash2,
-  Eye,
   BarChart3,
-  MessageSquare,
+  XCircle,
+  HelpCircle,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -22,16 +22,55 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Separator } from '@/components/ui/separator'
+import { Textarea } from '@/components/ui/textarea'
+import { Label } from '@/components/ui/label'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { FileUpload } from '@/components/upload/FileUpload'
 import { PDFViewer } from '@/components/pdf-viewer'
 import { QuickPeek } from '@/components/flashcards'
 import { Scorecard } from '@/components/scorecard'
-import { DecisionPanel } from '@/components/common/DecisionPanel'
 import { TransactionList } from '@/components/common/TransactionList'
-import { ChatInterface } from '@/components/chat/ChatInterface'
-import { useDeal, useDeleteDeal } from '@/hooks/useDeals'
+import { useDeal, useDeleteDeal, useUpdateDeal } from '@/hooks/useDeals'
 import { useQueryClient } from '@tanstack/react-query'
+
+type Decision = 'APPROVED' | 'DECLINED' | 'MORE_INFO'
+
+const decisionConfig = {
+  APPROVED: {
+    label: 'Approve',
+    shortLabel: 'Approve',
+    description: 'Approve this deal for funding',
+    icon: CheckCircle,
+    color: 'bg-green-600 hover:bg-green-700',
+    textColor: 'text-green-600',
+    badgeBg: 'bg-green-100 text-green-800',
+  },
+  DECLINED: {
+    label: 'Decline',
+    shortLabel: 'Decline',
+    description: 'Decline this deal',
+    icon: XCircle,
+    color: 'bg-red-600 hover:bg-red-700',
+    textColor: 'text-red-600',
+    badgeBg: 'bg-red-100 text-red-800',
+  },
+  MORE_INFO: {
+    label: 'Request Info',
+    shortLabel: 'Request Info',
+    description: 'Request additional information',
+    icon: HelpCircle,
+    color: 'bg-yellow-600 hover:bg-yellow-700',
+    textColor: 'text-yellow-600',
+    badgeBg: 'bg-yellow-100 text-yellow-800',
+  },
+}
 
 const statusConfig = {
   NEW: { label: 'New', variant: 'secondary' as const, icon: FileText, color: 'bg-gray-500' },
@@ -57,7 +96,13 @@ export default function DealDetailPage({ params }: { params: Promise<{ id: strin
   const queryClient = useQueryClient()
   const { data: deal, isLoading, error, refetch } = useDeal(id)
   const deleteDeal = useDeleteDeal()
+  const updateDeal = useUpdateDeal()
   const [selectedDocId, setSelectedDocId] = useState<string | null>(null)
+
+  // Decision state
+  const [selectedDecision, setSelectedDecision] = useState<Decision | null>(null)
+  const [decisionNotes, setDecisionNotes] = useState('')
+  const [isDecisionDialogOpen, setIsDecisionDialogOpen] = useState(false)
 
   const handleDelete = async () => {
     if (!confirm('Are you sure you want to delete this deal?')) return
@@ -75,8 +120,34 @@ export default function DealDetailPage({ params }: { params: Promise<{ id: strin
     queryClient.invalidateQueries({ queryKey: ['deal', id] })
   }
 
-  const handleDecisionMade = () => {
-    refetch()
+  const handleDecisionClick = (decision: Decision) => {
+    setSelectedDecision(decision)
+    setDecisionNotes('')
+    setIsDecisionDialogOpen(true)
+  }
+
+  const handleConfirmDecision = async () => {
+    if (!selectedDecision) return
+
+    try {
+      await updateDeal.mutateAsync({
+        id,
+        decision: selectedDecision,
+        decisionNotes: decisionNotes,
+        status: 'DECIDED',
+      })
+      toast.success(`Deal ${selectedDecision.toLowerCase().replace('_', ' ')}`)
+      setIsDecisionDialogOpen(false)
+      refetch()
+    } catch (error) {
+      toast.error('Failed to save decision')
+    }
+  }
+
+  const handleChangeDecision = () => {
+    setSelectedDecision(null)
+    setDecisionNotes('')
+    setIsDecisionDialogOpen(true)
   }
 
   if (isLoading) {
@@ -211,306 +282,362 @@ export default function DealDetailPage({ params }: { params: Promise<{ id: strin
     monthsAnalyzed: 3,
   } : null
 
+  const DecisionIcon = selectedDecision ? decisionConfig[selectedDecision].icon : null
+
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-start justify-between">
-        <div className="flex items-center gap-4">
-          <Link href="/deals">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-          </Link>
-          <div>
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold text-gray-900">{deal.merchantName}</h1>
-              <Badge variant={status.variant}>
-                <StatusIcon className={`mr-1 h-3 w-3 ${deal.status === 'PROCESSING' ? 'animate-spin' : ''}`} />
-                {status.label}
-              </Badge>
-            </div>
-            <p className="text-sm text-gray-500">
-              Created {new Date(deal.createdAt).toLocaleDateString()}
-            </p>
-          </div>
-        </div>
-        <Button variant="destructive" size="sm" onClick={handleDelete}>
-          <Trash2 className="mr-2 h-4 w-4" />
-          Delete
-        </Button>
-      </div>
-
-      {/* Main Content */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Left Column - Main Content */}
-        <div className="lg:col-span-2 space-y-6">
-          <Tabs defaultValue={hasReadyDocuments ? 'review' : 'documents'}>
-            <TabsList>
-              <TabsTrigger value="documents">Documents</TabsTrigger>
-              <TabsTrigger value="review" disabled={!hasReadyDocuments}>
-                <Eye className="mr-1 h-4 w-4" />
-                Review
-              </TabsTrigger>
-              <TabsTrigger value="scorecard" disabled={!hasReadyDocuments}>
-                <BarChart3 className="mr-1 h-4 w-4" />
-                Scorecard
-              </TabsTrigger>
-              <TabsTrigger value="activity">Activity</TabsTrigger>
-            </TabsList>
-
-            {/* Documents Tab */}
-            <TabsContent value="documents" className="mt-4 space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Upload className="h-5 w-5" />
-                    Upload Bank Statements
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <FileUpload dealId={id} onUploadComplete={handleUploadComplete} />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Uploaded Documents</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {deal.documents && deal.documents.length > 0 ? (
-                    <div className="space-y-3">
-                      {deal.documents.map((doc: {
-                        id: string
-                        originalName: string
-                        status: string
-                        size: number
-                        createdAt: string
-                        bankAccounts?: Array<{ bankName: string; _count?: { transactions: number } }>
-                      }) => {
-                        const docStatus = docStatusConfig[doc.status as keyof typeof docStatusConfig] || docStatusConfig.UPLOADED
-                        return (
-                          <div
-                            key={doc.id}
-                            className={`flex items-center gap-4 p-4 rounded-lg cursor-pointer transition-colors ${
-                              selectedDocId === doc.id ? 'bg-blue-50 border border-blue-200' : 'bg-gray-50 hover:bg-gray-100'
-                            }`}
-                            onClick={() => setSelectedDocId(doc.id)}
-                          >
-                            <FileText className="h-8 w-8 text-red-500" />
-                            <div className="flex-1 min-w-0">
-                              <p className="font-medium text-gray-900 truncate">
-                                {doc.originalName}
-                              </p>
-                              <div className="flex items-center gap-2 text-sm text-gray-500">
-                                <span>{(doc.size / 1024 / 1024).toFixed(2)} MB</span>
-                                <span>•</span>
-                                <span>{new Date(doc.createdAt).toLocaleString()}</span>
-                              </div>
-                              {doc.bankAccounts && doc.bankAccounts.length > 0 && (
-                                <p className="text-xs text-gray-400 mt-1">
-                                  {doc.bankAccounts.map((ba) => ba.bankName).join(', ')} •{' '}
-                                  {doc.bankAccounts.reduce((acc, ba) => acc + (ba._count?.transactions || 0), 0)} transactions
-                                </p>
-                              )}
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <div className={`h-2 w-2 rounded-full ${docStatus.color}`} />
-                              <span className="text-sm text-gray-600">{docStatus.label}</span>
-                              {(doc.status === 'PARSING' || doc.status === 'TAGGING') && (
-                                <Loader2 className="h-4 w-4 animate-spin text-blue-500" />
-                              )}
-                            </div>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  ) : (
-                    <div className="text-center py-8 text-gray-500">
-                      <FileText className="h-12 w-12 mx-auto mb-3 text-gray-300" />
-                      <p>No documents uploaded yet</p>
-                      <p className="text-sm">Upload bank statements to begin processing</p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* PDF Preview */}
-              {selectedDocId && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Document Preview</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <PDFViewer
-                      url={`/api/documents/${selectedDocId}/file`}
-                      className="h-[600px]"
-                    />
-                  </CardContent>
-                </Card>
-              )}
-            </TabsContent>
-
-            {/* Review Tab */}
-            <TabsContent value="review" className="mt-4 space-y-6">
-              {/* Quick Peek */}
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Quick Peek</h3>
-                <QuickPeek metrics={mockMetrics} />
-              </div>
-
-              {/* PDF Viewer */}
-              {readyDocuments.length > 0 && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Bank Statement</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <PDFViewer
-                      url={`/api/documents/${readyDocuments[0].id}/file`}
-                      filename={readyDocuments[0].originalName}
-                      className="h-[500px]"
-                    />
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Transactions */}
-              <TransactionList transactions={sortedTransactions} />
-            </TabsContent>
-
-            {/* Scorecard Tab */}
-            <TabsContent value="scorecard" className="mt-4">
-              <Scorecard transactions={sortedTransactions} dealId={id} />
-            </TabsContent>
-
-            {/* Activity Tab */}
-            <TabsContent value="activity" className="mt-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Activity Log</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {deal.activities && deal.activities.length > 0 ? (
-                    <div className="space-y-4">
-                      {deal.activities.map((activity: {
-                        id: string
-                        action: string
-                        details?: string | null
-                        createdAt: string
-                        user?: { name?: string | null; email: string } | null
-                      }) => (
-                        <div key={activity.id} className="flex gap-3">
-                          <div className="h-2 w-2 mt-2 rounded-full bg-gray-400" />
-                          <div>
-                            <p className="text-sm text-gray-900">
-                              <span className="font-medium">
-                                {activity.user?.name || activity.user?.email || 'System'}
-                              </span>{' '}
-                              {activity.action.toLowerCase().replace('_', ' ')}
-                            </p>
-                            {activity.details && (
-                              <p className="text-sm text-gray-500">{activity.details}</p>
-                            )}
-                            <p className="text-xs text-gray-400">
-                              {new Date(activity.createdAt).toLocaleString()}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-center py-8 text-gray-500">No activity yet</p>
-                  )}
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-        </div>
-
-        {/* Right Column - Deal Info & Decision */}
-        <div className="space-y-6">
-          {/* Decision Panel - Show when ready for review */}
-          {hasReadyDocuments && (
-            <DecisionPanel
-              dealId={id}
-              currentDecision={deal.decision as 'APPROVED' | 'DECLINED' | 'MORE_INFO' | null}
-              currentNotes={deal.decisionNotes}
-              onDecisionMade={handleDecisionMade}
-            />
-          )}
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Deal Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <p className="text-sm font-medium text-gray-500">Status</p>
-                <div className="flex items-center gap-2 mt-1">
-                  <div className={`h-3 w-3 rounded-full ${status.color}`} />
-                  <span className="font-medium">{status.label}</span>
-                </div>
-              </div>
-              <Separator />
-              <div>
-                <p className="text-sm font-medium text-gray-500">Documents</p>
-                <p className="font-medium mt-1">{deal.documents?.length || 0} uploaded</p>
-                {readyDocuments.length > 0 && (
-                  <p className="text-xs text-green-600">{readyDocuments.length} ready for review</p>
+      {/* Header with Decision Actions */}
+      <div className="bg-white rounded-lg border shadow-sm p-4">
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-4">
+            <Link href="/deals">
+              <Button variant="ghost" size="icon">
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+            </Link>
+            <div>
+              <div className="flex items-center gap-3">
+                <h1 className="text-2xl font-bold text-gray-900">{deal.merchantName}</h1>
+                <Badge variant={status.variant}>
+                  <StatusIcon className={`mr-1 h-3 w-3 ${deal.status === 'PROCESSING' ? 'animate-spin' : ''}`} />
+                  {status.label}
+                </Badge>
+                {deal.decision && (
+                  <Badge className={decisionConfig[deal.decision as Decision].badgeBg}>
+                    {decisionConfig[deal.decision as Decision].label}
+                  </Badge>
                 )}
               </div>
-              <Separator />
-              <div>
-                <p className="text-sm font-medium text-gray-500">Created</p>
-                <p className="font-medium mt-1">
-                  {new Date(deal.createdAt).toLocaleDateString()}
-                </p>
-              </div>
-              <Separator />
-              <div>
-                <p className="text-sm font-medium text-gray-500">Last Updated</p>
-                <p className="font-medium mt-1">
-                  {new Date(deal.updatedAt).toLocaleDateString()}
-                </p>
-              </div>
-              {deal.decision && (
-                <>
-                  <Separator />
-                  <div>
-                    <p className="text-sm font-medium text-gray-500">Decision</p>
-                    <Badge
-                      variant={deal.decision === 'APPROVED' ? 'default' : deal.decision === 'DECLINED' ? 'destructive' : 'secondary'}
-                      className="mt-1"
-                    >
-                      {deal.decision}
-                    </Badge>
+              <p className="text-sm text-gray-500 mt-1">
+                Created {new Date(deal.createdAt).toLocaleDateString()} • {deal.documents?.length || 0} documents
+              </p>
+            </div>
+          </div>
+          <Button variant="ghost" size="sm" onClick={handleDelete} className="text-red-600 hover:text-red-700 hover:bg-red-50">
+            <Trash2 className="mr-2 h-4 w-4" />
+            Delete
+          </Button>
+        </div>
+
+        {/* Decision Buttons */}
+        {hasReadyDocuments && (
+          <div className="flex items-center gap-3 mt-4 pt-4 border-t">
+            {deal.decision ? (
+              <>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  {(() => {
+                    const config = decisionConfig[deal.decision as Decision]
+                    const Icon = config.icon
+                    return (
+                      <>
+                        <Icon className={`h-4 w-4 ${config.textColor}`} />
+                        <span>Decision: <strong className={config.textColor}>{config.label}</strong></span>
+                      </>
+                    )
+                  })()}
+                  {deal.decisionNotes && (
+                    <span className="text-gray-400 ml-2">— {deal.decisionNotes.substring(0, 50)}{deal.decisionNotes.length > 50 ? '...' : ''}</span>
+                  )}
+                </div>
+                <Button variant="outline" size="sm" onClick={handleChangeDecision}>
+                  Change Decision
+                </Button>
+              </>
+            ) : (
+              <>
+                <span className="text-sm text-gray-500 mr-2">Make a decision:</span>
+                <Button
+                  size="sm"
+                  className={`${decisionConfig.APPROVED.color} text-white`}
+                  onClick={() => handleDecisionClick('APPROVED')}
+                >
+                  <CheckCircle className="mr-1 h-4 w-4" />
+                  Approve
+                </Button>
+                <Button
+                  size="sm"
+                  className={`${decisionConfig.DECLINED.color} text-white`}
+                  onClick={() => handleDecisionClick('DECLINED')}
+                >
+                  <XCircle className="mr-1 h-4 w-4" />
+                  Decline
+                </Button>
+                <Button
+                  size="sm"
+                  className={`${decisionConfig.MORE_INFO.color} text-white`}
+                  onClick={() => handleDecisionClick('MORE_INFO')}
+                >
+                  <HelpCircle className="mr-1 h-4 w-4" />
+                  Request Info
+                </Button>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Main Content - Full Width */}
+      <Tabs defaultValue={hasReadyDocuments ? 'analysis' : 'documents'}>
+        <TabsList>
+          <TabsTrigger value="documents">
+            <FileText className="mr-1 h-4 w-4" />
+            Documents
+          </TabsTrigger>
+          <TabsTrigger value="analysis" disabled={!hasReadyDocuments}>
+            <BarChart3 className="mr-1 h-4 w-4" />
+            Analysis
+          </TabsTrigger>
+          <TabsTrigger value="activity">
+            <Clock className="mr-1 h-4 w-4" />
+            Activity
+          </TabsTrigger>
+        </TabsList>
+
+        {/* Documents Tab */}
+        <TabsContent value="documents" className="mt-4 space-y-4">
+          <div className="grid gap-4 lg:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Upload className="h-5 w-5" />
+                  Upload Bank Statements
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <FileUpload dealId={id} onUploadComplete={handleUploadComplete} />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Uploaded Documents</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {deal.documents && deal.documents.length > 0 ? (
+                  <div className="space-y-3">
+                    {deal.documents.map((doc: {
+                      id: string
+                      originalName: string
+                      status: string
+                      size: number
+                      createdAt: string
+                      bankAccounts?: Array<{ bankName: string; _count?: { transactions: number } }>
+                    }) => {
+                      const docStatus = docStatusConfig[doc.status as keyof typeof docStatusConfig] || docStatusConfig.UPLOADED
+                      return (
+                        <div
+                          key={doc.id}
+                          className={`flex items-center gap-4 p-4 rounded-lg cursor-pointer transition-colors ${
+                            selectedDocId === doc.id ? 'bg-blue-50 border border-blue-200' : 'bg-gray-50 hover:bg-gray-100'
+                          }`}
+                          onClick={() => setSelectedDocId(doc.id)}
+                        >
+                          <FileText className="h-8 w-8 text-red-500" />
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-gray-900 truncate">
+                              {doc.originalName}
+                            </p>
+                            <div className="flex items-center gap-2 text-sm text-gray-500">
+                              <span>{(doc.size / 1024 / 1024).toFixed(2)} MB</span>
+                              <span>•</span>
+                              <span>{new Date(doc.createdAt).toLocaleString()}</span>
+                            </div>
+                            {doc.bankAccounts && doc.bankAccounts.length > 0 && (
+                              <p className="text-xs text-gray-400 mt-1">
+                                {doc.bankAccounts.map((ba) => ba.bankName).join(', ')} •{' '}
+                                {doc.bankAccounts.reduce((acc, ba) => acc + (ba._count?.transactions || 0), 0)} transactions
+                              </p>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className={`h-2 w-2 rounded-full ${docStatus.color}`} />
+                            <span className="text-sm text-gray-600">{docStatus.label}</span>
+                            {(doc.status === 'PARSING' || doc.status === 'TAGGING') && (
+                              <Loader2 className="h-4 w-4 animate-spin text-blue-500" />
+                            )}
+                          </div>
+                        </div>
+                      )
+                    })}
                   </div>
-                </>
+                ) : (
+                  <div className="text-center py-8 text-gray-500">
+                    <FileText className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                    <p>No documents uploaded yet</p>
+                    <p className="text-sm">Upload bank statements to begin processing</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* PDF Preview */}
+          {selectedDocId && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Document Preview</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <PDFViewer
+                  url={`/api/documents/${selectedDocId}/file`}
+                  className="h-[600px]"
+                />
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        {/* Analysis Tab (merged Review + Scorecard) */}
+        <TabsContent value="analysis" className="mt-4 space-y-6">
+          {/* Quick Peek Summary */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Quick Summary</h3>
+            <QuickPeek metrics={mockMetrics} />
+          </div>
+
+          {/* Scorecard */}
+          <Scorecard transactions={sortedTransactions} dealId={id} />
+
+          {/* Transactions */}
+          <TransactionList transactions={sortedTransactions} />
+
+          {/* PDF Viewer */}
+          {readyDocuments.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Bank Statement</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <PDFViewer
+                  url={`/api/documents/${readyDocuments[0].id}/file`}
+                  filename={readyDocuments[0].originalName}
+                  className="h-[500px]"
+                />
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        {/* Activity Tab */}
+        <TabsContent value="activity" className="mt-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Activity Log</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {deal.activities && deal.activities.length > 0 ? (
+                <div className="space-y-4">
+                  {deal.activities.map((activity: {
+                    id: string
+                    action: string
+                    details?: string | null
+                    createdAt: string
+                    user?: { name?: string | null; email: string } | null
+                  }) => (
+                    <div key={activity.id} className="flex gap-3">
+                      <div className="h-2 w-2 mt-2 rounded-full bg-gray-400" />
+                      <div>
+                        <p className="text-sm text-gray-900">
+                          <span className="font-medium">
+                            {activity.user?.name || activity.user?.email || 'System'}
+                          </span>{' '}
+                          {activity.action.toLowerCase().replace('_', ' ')}
+                        </p>
+                        {activity.details && (
+                          <p className="text-sm text-gray-500">{activity.details}</p>
+                        )}
+                        <p className="text-xs text-gray-400">
+                          {new Date(activity.createdAt).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-center py-8 text-gray-500">No activity yet</p>
               )}
             </CardContent>
           </Card>
+        </TabsContent>
+      </Tabs>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <Button className="w-full" variant="outline" onClick={() => refetch()}>
-                <Clock className="mr-2 h-4 w-4" />
-                Refresh Status
-              </Button>
-            </CardContent>
-          </Card>
+      {/* Decision Dialog */}
+      <Dialog open={isDecisionDialogOpen} onOpenChange={setIsDecisionDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              {DecisionIcon && (
+                <DecisionIcon
+                  className={`h-5 w-5 ${
+                    selectedDecision ? decisionConfig[selectedDecision].textColor : ''
+                  }`}
+                />
+              )}
+              {selectedDecision
+                ? `Confirm ${decisionConfig[selectedDecision].label}`
+                : 'Change Decision'}
+            </DialogTitle>
+            <DialogDescription>
+              {selectedDecision
+                ? decisionConfig[selectedDecision].description
+                : 'Select a new decision for this deal'}
+            </DialogDescription>
+          </DialogHeader>
 
-          {/* AI Chat Assistant - Show when documents are ready */}
-          {hasReadyDocuments && (
-            <ChatInterface
-              dealId={id}
-              dealName={deal.merchantName}
-            />
+          {!selectedDecision && (
+            <div className="grid gap-3 py-4">
+              {(Object.keys(decisionConfig) as Decision[]).map((decision) => {
+                const config = decisionConfig[decision]
+                const Icon = config.icon
+                return (
+                  <Button
+                    key={decision}
+                    variant="outline"
+                    className={`w-full justify-start ${
+                      deal.decision === decision ? 'border-2 border-primary' : ''
+                    }`}
+                    onClick={() => setSelectedDecision(decision)}
+                  >
+                    <Icon className={`mr-2 h-4 w-4 ${config.textColor}`} />
+                    {config.label}
+                  </Button>
+                )
+              })}
+            </div>
           )}
-        </div>
-      </div>
+
+          {selectedDecision && (
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="notes">Decision Notes</Label>
+                <Textarea
+                  id="notes"
+                  placeholder="Add notes about your decision..."
+                  value={decisionNotes}
+                  onChange={(e) => setDecisionNotes(e.target.value)}
+                  rows={4}
+                />
+              </div>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDecisionDialogOpen(false)}>
+              Cancel
+            </Button>
+            {selectedDecision && (
+              <Button
+                className={decisionConfig[selectedDecision].color}
+                onClick={handleConfirmDecision}
+                disabled={updateDeal.isPending}
+              >
+                {updateDeal.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Confirm {decisionConfig[selectedDecision].label}
+              </Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

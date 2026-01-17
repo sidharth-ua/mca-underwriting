@@ -1,17 +1,24 @@
 'use client'
 
-import { Loader2 } from 'lucide-react'
+import { useState } from 'react'
+import { Loader2, ChevronDown, ChevronRight, BarChart2 } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible'
 import {
   StatsCards,
   DashboardCharts,
   DealsPipeline,
-  RecentActivity,
 } from '@/components/dashboard'
 import { useDashboard } from '@/hooks/useDashboard'
 
 export default function DashboardPage() {
   const { data, isLoading, error } = useDashboard()
+  const [chartsExpanded, setChartsExpanded] = useState(false)
 
   if (isLoading) {
     return (
@@ -54,21 +61,36 @@ export default function DashboardPage() {
       {/* Stats Cards */}
       <StatsCards stats={data.stats} />
 
-      {/* Charts */}
-      <DashboardCharts
-        monthlyData={data.monthlyData}
-        decisionData={data.decisionData}
-      />
+      {/* Pipeline - Full Width */}
+      <DealsPipeline deals={data.deals} />
 
-      {/* Pipeline and Activity */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <DealsPipeline deals={data.deals} />
-        </div>
-        <div>
-          <RecentActivity activities={data.recentActivities} />
-        </div>
-      </div>
+      {/* Analytics - Collapsible */}
+      <Card>
+        <Collapsible open={chartsExpanded} onOpenChange={setChartsExpanded}>
+          <CardHeader className="pb-3">
+            <CollapsibleTrigger className="w-full">
+              <div className="flex items-center justify-between cursor-pointer hover:bg-gray-50 -mx-2 px-2 py-1 rounded">
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart2 className="h-5 w-5" />
+                  Analytics
+                </CardTitle>
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <span>{chartsExpanded ? 'Hide Charts' : 'Show Charts'}</span>
+                  {chartsExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                </div>
+              </div>
+            </CollapsibleTrigger>
+          </CardHeader>
+          <CollapsibleContent>
+            <CardContent className="pt-0">
+              <DashboardCharts
+                monthlyData={data.monthlyData}
+                decisionData={data.decisionData}
+              />
+            </CardContent>
+          </CollapsibleContent>
+        </Collapsible>
+      </Card>
     </div>
   )
 }

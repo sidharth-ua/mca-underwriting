@@ -1,1 +1,8 @@
 export { ChatInterface } from './ChatInterface'
+export { DealContextPanel } from './DealContextPanel'
+export { ScoreGauge } from './ScoreGauge'
+export { QuickStatsCard, QuickStatsGrid } from './QuickStatsCard'
+export { RedFlagsList } from './RedFlagsList'
+export { MiniScorecard } from './MiniScorecard'
+export { SuggestedQuestions, generateSuggestions } from './SuggestedQuestions'
+export { ChatMessage } from './ChatMessage'

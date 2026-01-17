@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard,
   FileText,
+  MessageSquare,
   Settings,
   ChevronLeft,
   ChevronRight
@@ -16,6 +17,7 @@ import { useUIStore } from '@/store/uiStore'
 const navigation = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   { name: 'Deals', href: '/deals', icon: FileText },
+  { name: 'Chats', href: '/chats', icon: MessageSquare },
   { name: 'Settings', href: '/settings', icon: Settings },
 ]
 
