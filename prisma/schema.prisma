@@ -42,10 +42,11 @@ model Deal {
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 
-  documents  Document[]
-  metrics    DealMetrics?
-  notes      DealNote[]
-  activities DealActivity[]
+  documents    Document[]
+  metrics      DealMetrics?
+  notes        DealNote[]
+  activities   DealActivity[]
+  chatMessages ChatMessage[]
 
   @@map("deals")
 }
@@ -113,9 +114,9 @@ model BankAccount {
 
 // Transaction model - individual bank transactions
 model Transaction {
-  id             String      @id @default(cuid())
+  id             String       @id @default(cuid())
   bankAccountId  String
-  bankAccount    BankAccount @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
+  bankAccount    BankAccount  @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
   date           DateTime
   description    String
   amount         Float
@@ -123,18 +124,29 @@ model Transaction {
   runningBalance Float?
   category       String?
   subcategory    String?
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  parseQuality   ParseQuality?  // NEW: Confidence level of categorization
+  rawCategory    String?        // NEW: Original tag_category from CSV (for audit trail)
+  rawSubcategory String?        // NEW: Original tag from CSV (for audit trail)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 
   @@index([bankAccountId])
   @@index([date])
   @@index([category])
+  @@index([parseQuality])
   @@map("transactions")
 }
 
 enum TransactionType {
   CREDIT
   DEBIT
+}
+
+enum ParseQuality {
+  HIGH
+  MEDIUM
+  LOW
+  UNASSIGNED
 }
 
 // DealMetrics model - cached calculated metrics
@@ -230,4 +242,27 @@ model DealActivity {
 
   @@index([dealId])
   @@map("deal_activities")
+}
+
+// ChatMessage model - AI chat history per deal
+model ChatMessage {
+  id        String      @id @default(cuid())
+  dealId    String
+  deal      Deal        @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  role      MessageRole
+  content   String      @db.Text
+  timestamp DateTime    @default(now())
+
+  // Metadata for assistant messages
+  tokensUsed Int?
+  latencyMs  Int?
+
+  @@index([dealId])
+  @@index([dealId, timestamp])
+  @@map("chat_messages")
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
 }

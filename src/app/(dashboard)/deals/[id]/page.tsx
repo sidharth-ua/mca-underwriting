@@ -14,6 +14,7 @@ import {
   Trash2,
   Eye,
   BarChart3,
+  MessageSquare,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -28,6 +29,7 @@ import { QuickPeek } from '@/components/flashcards'
 import { Scorecard } from '@/components/scorecard'
 import { DecisionPanel } from '@/components/common/DecisionPanel'
 import { TransactionList } from '@/components/common/TransactionList'
+import { ChatInterface } from '@/components/chat/ChatInterface'
 import { useDeal, useDeleteDeal } from '@/hooks/useDeals'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -378,7 +380,7 @@ export default function DealDetailPage({ params }: { params: Promise<{ id: strin
 
             {/* Scorecard Tab */}
             <TabsContent value="scorecard" className="mt-4">
-              <Scorecard transactions={sortedTransactions} />
+              <Scorecard transactions={sortedTransactions} dealId={id} />
             </TabsContent>
 
             {/* Activity Tab */}
@@ -499,6 +501,14 @@ export default function DealDetailPage({ params }: { params: Promise<{ id: strin
               </Button>
             </CardContent>
           </Card>
+
+          {/* AI Chat Assistant - Show when documents are ready */}
+          {hasReadyDocuments && (
+            <ChatInterface
+              dealId={id}
+              dealName={deal.merchantName}
+            />
+          )}
         </div>
       </div>
     </div>
