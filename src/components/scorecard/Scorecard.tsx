@@ -4,7 +4,6 @@ import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   Collapsible,
   CollapsibleContent,
@@ -34,6 +33,9 @@ import {
   Line,
   BarChart,
   Bar,
+  AreaChart,
+  Area,
+  ComposedChart,
   ResponsiveContainer,
   XAxis,
   YAxis,
@@ -42,6 +44,8 @@ import {
   Cell,
   PieChart,
   Pie,
+  Legend,
+  ReferenceLine,
 } from 'recharts'
 import {
   calculateAggregatedMetrics,
@@ -58,15 +62,11 @@ import {
 import {
   calculateOverallScorecard,
   getOverallSummary,
-  getSubsectionDetails,
   type ScorecardInput,
   type OverallSummary,
-  type SubsectionDetail,
 } from '@/utils/calculations/overallScorecard'
 import type {
   OverallScorecard as OverallScorecardType,
-  SectionScore,
-  SubsectionScore,
 } from '@/utils/calculations/scoringFramework'
 
 interface ScorecardProps {
@@ -245,170 +245,6 @@ function SectionScoreCard({
   return cardContent
 }
 
-// ============================================================================
-// SUBSECTION DETAIL COMPONENTS
-// ============================================================================
-
-function SubsectionDetailCard({ subsection }: { subsection: SubsectionDetail }) {
-  const [isOpen, setIsOpen] = useState(false)
-
-  return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <div className={`border rounded-lg mb-2 ${getRatingBg(subsection.rating)}`}>
-        <CollapsibleTrigger className="w-full">
-          <div className="flex items-center justify-between p-3 hover:bg-gray-50/50">
-            <div className="flex items-center gap-3">
-              {isOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-              <span className="font-medium">{subsection.name}</span>
-              <Badge variant="outline" className="text-xs">
-                {subsection.weight}
-              </Badge>
-            </div>
-            <div className="flex items-center gap-3">
-              {subsection.redFlags.length > 0 && (
-                <Badge variant="outline" className="bg-red-100 text-red-700 border-red-300 text-xs">
-                  {subsection.redFlags.length} flag{subsection.redFlags.length !== 1 ? 's' : ''}
-                </Badge>
-              )}
-              <span className={`font-bold ${getScoreColor(subsection.score)}`}>
-                {subsection.score}
-              </span>
-            </div>
-          </div>
-        </CollapsibleTrigger>
-
-        <CollapsibleContent>
-          <div className="px-3 pb-3 pt-0 border-t">
-            {/* Metrics Table */}
-            <div className="mt-3">
-              <h4 className="text-xs font-semibold text-gray-500 uppercase mb-2">Metrics</h4>
-              <div className="space-y-2">
-                {subsection.metrics.map((metric, idx) => (
-                  <div key={idx} className="flex items-center justify-between py-1 border-b border-gray-100 last:border-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-600">{metric.name}</span>
-                      <span className="text-xs text-gray-400">({metric.weight})</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="font-medium">{metric.formattedValue}</span>
-                      {metric.interpretation && (
-                        <span className="text-xs text-gray-500 ml-2">({metric.interpretation})</span>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Red Flags */}
-            {subsection.redFlags.length > 0 && (
-              <div className="mt-3">
-                <h4 className="text-xs font-semibold text-red-600 uppercase mb-2">Red Flags</h4>
-                <div className="space-y-2">
-                  {subsection.redFlags.map((flag, idx) => (
-                    <div
-                      key={idx}
-                      className={`p-2 rounded text-sm ${
-                        flag.severity === 'CRITICAL' ? 'bg-red-100 text-red-800' :
-                        flag.severity === 'HIGH' ? 'bg-orange-100 text-orange-800' :
-                        flag.severity === 'MEDIUM' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-gray-100 text-gray-800'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <AlertTriangle className="h-4 w-4" />
-                          <span className="font-medium">{flag.type}</span>
-                          <Badge variant="outline" className="text-xs">
-                            {flag.severity}
-                          </Badge>
-                        </div>
-                        <span className="text-xs">-{flag.pointsDeducted} pts</span>
-                      </div>
-                      <p className="mt-1 text-xs">{flag.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </CollapsibleContent>
-      </div>
-    </Collapsible>
-  )
-}
-
-// ============================================================================
-// SECTION TAB CONTENT
-// ============================================================================
-
-function SectionTabContent({
-  scorecard,
-  sectionKey,
-}: {
-  scorecard: OverallScorecardType
-  sectionKey: 'revenueQuality' | 'expenseQuality' | 'existingDebtImpact' | 'cashflowCharges'
-}) {
-  const section = scorecard.sections[sectionKey]
-  const subsectionDetails = getSubsectionDetails(section)
-
-  const sectionDescriptions: Record<string, string> = {
-    revenueQuality: 'Analyzes income stability, growth patterns, revenue concentration, and business sustainability.',
-    expenseQuality: 'Evaluates expense management, cost control, and operational efficiency.',
-    existingDebtImpact: 'Assesses MCA positions, stacking risk, debt burden, and repayment patterns.',
-    cashflowCharges: 'Reviews NSF/overdraft events, balance health, and liquidity management.',
-  }
-
-  return (
-    <div className="space-y-4">
-      {/* Section Header */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h3 className="text-xl font-bold">{section.name}</h3>
-              <p className="text-sm text-gray-600">{sectionDescriptions[sectionKey]}</p>
-            </div>
-            <div className="text-right">
-              <div className={`text-4xl font-bold ${getScoreColor(section.score)}`}>
-                {section.score}
-              </div>
-              <Badge variant="outline" className={`${getRatingBg(section.rating)} ${getRatingColor(section.rating)}`}>
-                {['', 'Critical', 'Poor', 'Fair', 'Good', 'Excellent'][section.rating]}
-              </Badge>
-            </div>
-          </div>
-
-          {/* Score Distribution Bar */}
-          <div className="relative h-3 bg-gray-200 rounded-full overflow-hidden">
-            <div
-              className={`absolute left-0 top-0 h-full transition-all duration-500 ${
-                section.score >= 75 ? 'bg-green-500' :
-                section.score >= 60 ? 'bg-blue-500' :
-                section.score >= 45 ? 'bg-yellow-500' :
-                section.score >= 30 ? 'bg-orange-500' :
-                'bg-red-500'
-              }`}
-              style={{ width: `${section.score}%` }}
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Subsections */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base">Subsection Breakdown</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {subsectionDetails.map((sub, idx) => (
-            <SubsectionDetailCard key={idx} subsection={sub} />
-          ))}
-        </CardContent>
-      </Card>
-    </div>
-  )
-}
 
 // ============================================================================
 // DATA QUALITY INDICATOR
@@ -483,7 +319,7 @@ function DataQualityIndicator({ dataQuality }: { dataQuality: DataQuality }) {
 // ============================================================================
 
 export function Scorecard({ transactions, className, dealId }: ScorecardProps) {
-  const [activeSection, setActiveSection] = useState<'revenueQuality' | 'expenseQuality' | 'existingDebtImpact' | 'cashflowCharges'>('revenueQuality')
+  const [chartsExpanded, setChartsExpanded] = useState(false)
 
   // Calculate base metrics
   const metrics = useMemo(() => {
@@ -586,14 +422,27 @@ export function Scorecard({ transactions, className, dealId }: ScorecardProps) {
           {/* Overall Score Display */}
           <OverallScoreDisplay summary={summary} />
 
-          {/* Critical Issues Alert */}
-          {summary.criticalIssues.length > 0 && (
+          {/* Critical Issues Alert (includes MCA stacking alerts) */}
+          {(summary.criticalIssues.length > 0 || stackingAlerts.length > 0) && (
             <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
               <h4 className="text-sm font-semibold text-red-700 flex items-center gap-2 mb-2">
                 <AlertCircle className="h-4 w-4" />
-                Critical Issues ({summary.criticalIssues.length})
+                Critical Issues ({summary.criticalIssues.length + stackingAlerts.length})
               </h4>
               <ul className="text-sm text-red-600 space-y-1">
+                {/* MCA Stacking Alerts */}
+                {stackingAlerts.map((alert, idx) => (
+                  <li key={`stack-${idx}`} className="flex items-start gap-2">
+                    <AlertTriangle className="h-4 w-4 flex-shrink-0 mt-0.5 text-red-500" />
+                    <span>
+                      <strong>MCA Stacking:</strong> {alert.message}
+                      <span className="text-red-400 text-xs ml-1">
+                        ({new Date(alert.date).toLocaleDateString()})
+                      </span>
+                    </span>
+                  </li>
+                ))}
+                {/* Other Critical Issues */}
                 {summary.criticalIssues.slice(0, 5).map((issue, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <span className="text-red-400">-</span>
@@ -636,151 +485,463 @@ export function Scorecard({ transactions, className, dealId }: ScorecardProps) {
         </CardContent>
       </Card>
 
-      {/* 4 Section Score Cards */}
+      {/* 4 Section Score Cards - Click to view details */}
       <div className="grid grid-cols-4 gap-4 mb-4">
-        {(Object.entries(summary.sections) as [string, typeof summary.sections[0]][]).map(([key, section]) => (
-          <SectionScoreCard
-            key={key}
-            section={section}
-            icon={sectionIcons[key as keyof typeof sectionIcons]}
-            isActive={activeSection === key}
-            onClick={() => setActiveSection(key as typeof activeSection)}
-            href={dealId ? `/deals/${dealId}/scorecard/${SECTION_SLUGS[key]}` : undefined}
-          />
-        ))}
+        {Object.entries(scorecard.sections).map(([key, sectionData]) => {
+          const sectionSummary = summary.sections.find(s => s.name === sectionData.name)
+          if (!sectionSummary) return null
+          return (
+            <SectionScoreCard
+              key={key}
+              section={sectionSummary}
+              icon={sectionIcons[key as keyof typeof sectionIcons]}
+              isActive={false}
+              onClick={() => {}}
+              href={dealId ? `/deals/${dealId}/scorecard/${SECTION_SLUGS[key]}` : undefined}
+            />
+          )
+        })}
       </div>
 
-      {/* Section Detail Tabs */}
-      <Tabs value={activeSection} onValueChange={(v) => setActiveSection(v as typeof activeSection)}>
-        <TabsList className="grid grid-cols-4 mb-4">
-          <TabsTrigger value="revenueQuality" className="flex items-center gap-1">
-            <TrendingUp className="h-4 w-4" />
-            Revenue
-          </TabsTrigger>
-          <TabsTrigger value="expenseQuality" className="flex items-center gap-1">
-            <Wallet className="h-4 w-4" />
-            Expenses
-          </TabsTrigger>
-          <TabsTrigger value="existingDebtImpact" className="flex items-center gap-1">
-            <CreditCard className="h-4 w-4" />
-            Debt
-          </TabsTrigger>
-          <TabsTrigger value="cashflowCharges" className="flex items-center gap-1">
-            <Activity className="h-4 w-4" />
-            Cash Flow
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="revenueQuality">
-          <SectionTabContent scorecard={scorecard} sectionKey="revenueQuality" />
-        </TabsContent>
-
-        <TabsContent value="expenseQuality">
-          <SectionTabContent scorecard={scorecard} sectionKey="expenseQuality" />
-        </TabsContent>
-
-        <TabsContent value="existingDebtImpact">
-          <SectionTabContent scorecard={scorecard} sectionKey="existingDebtImpact" />
-        </TabsContent>
-
-        <TabsContent value="cashflowCharges">
-          <SectionTabContent scorecard={scorecard} sectionKey="cashflowCharges" />
-        </TabsContent>
-      </Tabs>
-
-      {/* MCA Stacking Alerts (if any) */}
-      {stackingAlerts.length > 0 && (
-        <Card className="mt-4">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2 text-red-600">
-              <AlertTriangle className="h-5 w-5" />
-              MCA Stacking Alerts
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              {stackingAlerts.map((alert, idx) => (
-                <div
-                  key={`stack-${idx}`}
-                  className={`flex items-center gap-2 p-2 rounded text-sm ${
-                    alert.severity === 'HIGH'
-                      ? 'bg-red-50 border border-red-200 text-red-700'
-                      : alert.severity === 'MEDIUM'
-                      ? 'bg-yellow-50 border border-yellow-200 text-yellow-700'
-                      : 'bg-blue-50 border border-blue-200 text-blue-700'
-                  }`}
-                >
-                  <AlertTriangle className="h-4 w-4 flex-shrink-0" />
-                  <div>
-                    <span className="font-medium">{alert.type}:</span> {alert.message}
-                    <span className="ml-2 text-xs text-gray-500">
-                      ({new Date(alert.date).toLocaleDateString()})
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Key Financial Summary */}
+      {/* Key Financial Metrics */}
       <Card className="mt-4">
         <CardHeader className="pb-2">
           <CardTitle className="text-base flex items-center gap-2">
             <BarChart2 className="h-5 w-5" />
-            Financial Summary
+            Key Financial Metrics
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-5 gap-4">
-            <div className="text-center p-3 bg-green-50 rounded-lg">
+          <div className="grid grid-cols-6 gap-3">
+            <div className="text-center p-3 bg-green-50 rounded-lg border border-green-100">
               <p className="text-xs text-gray-500 mb-1">Total Revenue</p>
               <p className="text-lg font-bold text-green-600">{formatCurrency(metrics.totalRevenue)}</p>
+              <p className="text-xs text-gray-400">{formatCurrency(metrics.avgMonthlyRevenue)}/mo</p>
             </div>
-            <div className="text-center p-3 bg-red-50 rounded-lg">
+            <div className="text-center p-3 bg-red-50 rounded-lg border border-red-100">
               <p className="text-xs text-gray-500 mb-1">Total Expenses</p>
               <p className="text-lg font-bold text-red-600">{formatCurrency(metrics.totalExpenses)}</p>
+              <p className="text-xs text-gray-400">{formatCurrency(metrics.avgMonthlyExpenses)}/mo</p>
             </div>
-            <div className="text-center p-3 bg-blue-50 rounded-lg">
+            <div className="text-center p-3 bg-blue-50 rounded-lg border border-blue-100">
               <p className="text-xs text-gray-500 mb-1">Net Cash Flow</p>
               <p className={`text-lg font-bold ${metrics.netCashFlow >= 0 ? 'text-blue-600' : 'text-red-600'}`}>
                 {formatCurrency(metrics.netCashFlow)}
               </p>
+              <p className="text-xs text-gray-400">{((metrics.netCashFlow / metrics.totalRevenue) * 100).toFixed(1)}% margin</p>
             </div>
-            <div className="text-center p-3 bg-yellow-50 rounded-lg">
+            <div className="text-center p-3 bg-yellow-50 rounded-lg border border-yellow-100">
               <p className="text-xs text-gray-500 mb-1">MCA Payments</p>
               <p className="text-lg font-bold text-yellow-600">{formatCurrency(metrics.mca.paymentsTotal)}</p>
+              <p className="text-xs text-gray-400">{((metrics.mca.paymentsTotal / metrics.totalRevenue) * 100).toFixed(1)}% of revenue</p>
             </div>
-            <div className="text-center p-3 bg-purple-50 rounded-lg">
-              <p className="text-xs text-gray-500 mb-1">NSF Events</p>
-              <p className={`text-lg font-bold ${metrics.nsf.count === 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {metrics.nsf.count}
+            <div className="text-center p-3 bg-purple-50 rounded-lg border border-purple-100">
+              <p className="text-xs text-gray-500 mb-1">Avg Daily Balance</p>
+              <p className={`text-lg font-bold ${metrics.cashFlow.avgDailyBalance >= 0 ? 'text-purple-600' : 'text-red-600'}`}>
+                {formatCurrency(metrics.cashFlow.avgDailyBalance)}
               </p>
+              <p className="text-xs text-gray-400">Min: {formatCurrency(metrics.cashFlow.minBalance)}</p>
+            </div>
+            <div className="text-center p-3 bg-orange-50 rounded-lg border border-orange-100">
+              <p className="text-xs text-gray-500 mb-1">NSF/Overdrafts</p>
+              <p className={`text-lg font-bold ${metrics.nsf.count === 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {metrics.nsf.count} events
+              </p>
+              <p className="text-xs text-gray-400">{metrics.nsf.negativeBalanceDays} negative days</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Underwriter Visualization Dashboard - Collapsible */}
+      <Card className="mt-4">
+        <Collapsible open={chartsExpanded} onOpenChange={setChartsExpanded}>
+          <CardHeader className="pb-2">
+            <CollapsibleTrigger className="w-full">
+              <div className="flex items-center justify-between cursor-pointer hover:bg-gray-50 -mx-2 px-2 py-1 rounded">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Activity className="h-5 w-5" />
+                  Trend Analysis Dashboard
+                </CardTitle>
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <span>{chartsExpanded ? 'Hide Charts' : 'Show Charts'}</span>
+                  {chartsExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                </div>
+              </div>
+            </CollapsibleTrigger>
+          </CardHeader>
+          <CollapsibleContent>
+            <CardContent className="space-y-6">
+          {/* Row 1: Monthly Ending Balance & Cash Flow Trend */}
+          <div className="grid grid-cols-2 gap-4">
+            {/* Monthly Ending Balance Trend */}
+            <div>
+              <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                <Wallet className="h-4 w-4 text-blue-500" />
+                Monthly Ending Balance Trend
+              </h4>
+              <div className="h-56 bg-gray-50 rounded-lg p-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={metrics.monthlyData.map(m => ({
+                    month: m.month,
+                    endingBalance: m.cashFlow.endingBalance,
+                    avgBalance: m.cashFlow.avgDailyBalance,
+                    minBalance: m.cashFlow.minBalance,
+                  }))}>
+                    <defs>
+                      <linearGradient id="balanceGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis dataKey="month" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                    <Tooltip
+                      formatter={(value) => formatCurrency(Number(value) || 0)}
+                      contentStyle={{ fontSize: 12 }}
+                    />
+                    <ReferenceLine y={0} stroke="#ef4444" strokeDasharray="3 3" strokeWidth={2} />
+                    <Area
+                      type="monotone"
+                      dataKey="endingBalance"
+                      stroke="#3b82f6"
+                      fill="url(#balanceGradient)"
+                      strokeWidth={2}
+                      name="Ending Balance"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="minBalance"
+                      stroke="#ef4444"
+                      strokeDasharray="5 5"
+                      strokeWidth={1}
+                      dot={false}
+                      name="Min Balance"
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Monthly Net Cash Flow */}
+            <div>
+              <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-green-500" />
+                Monthly Net Cash Flow
+              </h4>
+              <div className="h-56 bg-gray-50 rounded-lg p-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <ComposedChart data={metrics.monthlyData.map(m => ({
+                    month: m.month,
+                    netCashFlow: m.revenue.total - m.expenses.total,
+                    revenue: m.revenue.total,
+                    expenses: m.expenses.total,
+                  }))}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis dataKey="month" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                    <Tooltip
+                      formatter={(value) => formatCurrency(Number(value) || 0)}
+                      contentStyle={{ fontSize: 12 }}
+                    />
+                    <ReferenceLine y={0} stroke="#6b7280" strokeDasharray="3 3" />
+                    <Bar dataKey="netCashFlow" name="Net Cash Flow" radius={[4, 4, 0, 0]}>
+                      {metrics.monthlyData.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={(entry.revenue.total - entry.expenses.total) >= 0 ? '#22c55e' : '#ef4444'}
+                        />
+                      ))}
+                    </Bar>
+                    <Line
+                      type="monotone"
+                      dataKey="revenue"
+                      stroke="#22c55e"
+                      strokeWidth={2}
+                      dot={{ r: 3 }}
+                      name="Revenue"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="expenses"
+                      stroke="#ef4444"
+                      strokeWidth={2}
+                      dot={{ r: 3 }}
+                      name="Expenses"
+                    />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </div>
             </div>
           </div>
 
-          {/* Monthly Revenue vs Expenses Chart */}
-          <div className="mt-4">
-            <h4 className="text-xs font-semibold text-gray-500 uppercase mb-2">Monthly Revenue vs Expenses</h4>
-            <div className="h-48">
+          {/* Row 2: Revenue Trend & MCA Burden Analysis */}
+          <div className="grid grid-cols-2 gap-4">
+            {/* Revenue Stability Trend */}
+            <div>
+              <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                <DollarSign className="h-4 w-4 text-green-500" />
+                Revenue Trend & Moving Average
+              </h4>
+              <div className="h-56 bg-gray-50 rounded-lg p-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <ComposedChart data={metrics.monthlyData.map((m, idx, arr) => {
+                    // Calculate 3-month moving average
+                    const start = Math.max(0, idx - 2)
+                    const slice = arr.slice(start, idx + 1)
+                    const movingAvg = slice.reduce((sum, item) => sum + item.revenue.total, 0) / slice.length
+                    return {
+                      month: m.month,
+                      revenue: m.revenue.total,
+                      movingAvg: movingAvg,
+                      avgLine: metrics.avgMonthlyRevenue,
+                    }
+                  })}>
+                    <defs>
+                      <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis dataKey="month" tick={{ fontSize: 10 }} />
+                    <YAxis tick={{ fontSize: 10 }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                    <Tooltip
+                      formatter={(value) => formatCurrency(Number(value) || 0)}
+                      contentStyle={{ fontSize: 12 }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="revenue"
+                      stroke="#22c55e"
+                      fill="url(#revenueGradient)"
+                      strokeWidth={2}
+                      name="Monthly Revenue"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="movingAvg"
+                      stroke="#3b82f6"
+                      strokeWidth={2}
+                      dot={false}
+                      name="3-Month Avg"
+                    />
+                    <ReferenceLine
+                      y={metrics.avgMonthlyRevenue}
+                      stroke="#9ca3af"
+                      strokeDasharray="5 5"
+                      label={{ value: 'Avg', position: 'right', fontSize: 10 }}
+                    />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* MCA Burden Analysis */}
+            <div>
+              <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                <CreditCard className="h-4 w-4 text-yellow-500" />
+                MCA Payment Burden (% of Revenue)
+              </h4>
+              <div className="h-56 bg-gray-50 rounded-lg p-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <ComposedChart data={metrics.monthlyData.map(m => ({
+                    month: m.month,
+                    mcaPayments: m.mca?.paymentsTotal || 0,
+                    burdenRatio: m.revenue.total > 0 ? ((m.mca?.paymentsTotal || 0) / m.revenue.total) * 100 : 0,
+                    revenue: m.revenue.total,
+                  }))}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis dataKey="month" tick={{ fontSize: 10 }} />
+                    <YAxis
+                      yAxisId="left"
+                      tick={{ fontSize: 10 }}
+                      tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+                    />
+                    <YAxis
+                      yAxisId="right"
+                      orientation="right"
+                      tick={{ fontSize: 10 }}
+                      tickFormatter={(v) => `${v}%`}
+                      domain={[0, 'auto']}
+                    />
+                    <Tooltip
+                      formatter={(value, name) => {
+                        if (name === 'burdenRatio') return `${Number(value).toFixed(1)}%`
+                        return formatCurrency(Number(value) || 0)
+                      }}
+                      contentStyle={{ fontSize: 12 }}
+                    />
+                    <Bar
+                      yAxisId="left"
+                      dataKey="mcaPayments"
+                      fill="#f59e0b"
+                      radius={[4, 4, 0, 0]}
+                      name="MCA Payments"
+                    />
+                    <Line
+                      yAxisId="right"
+                      type="monotone"
+                      dataKey="burdenRatio"
+                      stroke="#ef4444"
+                      strokeWidth={2}
+                      dot={{ r: 4, fill: '#ef4444' }}
+                      name="Burden %"
+                    />
+                    <ReferenceLine
+                      yAxisId="right"
+                      y={15}
+                      stroke="#f59e0b"
+                      strokeDasharray="3 3"
+                      label={{ value: '15% threshold', position: 'right', fontSize: 9 }}
+                    />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+
+          {/* Row 3: Expense Analysis & NSF/Balance Health */}
+          <div className="grid grid-cols-2 gap-4">
+            {/* Expense Ratio Trend */}
+            <div>
+              <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                <Wallet className="h-4 w-4 text-red-500" />
+                Expense Ratio Trend (Expenses / Revenue)
+              </h4>
+              <div className="h-56 bg-gray-50 rounded-lg p-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <ComposedChart data={metrics.monthlyData.map(m => ({
+                    month: m.month,
+                    expenseRatio: m.revenue.total > 0 ? (m.expenses.total / m.revenue.total) * 100 : 0,
+                    expenses: m.expenses.total,
+                    revenue: m.revenue.total,
+                  }))}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis dataKey="month" tick={{ fontSize: 10 }} />
+                    <YAxis
+                      tick={{ fontSize: 10 }}
+                      tickFormatter={(v) => `${v}%`}
+                      domain={[0, 120]}
+                    />
+                    <Tooltip
+                      formatter={(value, name) => {
+                        if (name === 'expenseRatio') return `${Number(value).toFixed(1)}%`
+                        return formatCurrency(Number(value) || 0)
+                      }}
+                      contentStyle={{ fontSize: 12 }}
+                    />
+                    <ReferenceLine y={70} stroke="#22c55e" strokeDasharray="3 3" label={{ value: 'Good (<70%)', position: 'right', fontSize: 9 }} />
+                    <ReferenceLine y={90} stroke="#f59e0b" strokeDasharray="3 3" label={{ value: 'Warning (90%)', position: 'right', fontSize: 9 }} />
+                    <ReferenceLine y={100} stroke="#ef4444" strokeDasharray="3 3" />
+                    <Area
+                      type="monotone"
+                      dataKey="expenseRatio"
+                      stroke="#ef4444"
+                      fill="#fecaca"
+                      fillOpacity={0.5}
+                      strokeWidth={2}
+                      name="Expense Ratio %"
+                    />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* NSF & Balance Health */}
+            <div>
+              <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4 text-orange-500" />
+                NSF Events & Negative Balance Days
+              </h4>
+              <div className="h-56 bg-gray-50 rounded-lg p-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <ComposedChart data={metrics.monthlyData.map(m => ({
+                    month: m.month,
+                    nsfCount: m.nsf?.count || 0,
+                    negativeDays: m.nsf?.negativeBalanceDays || 0,
+                    nsfFees: m.nsf?.totalFees || 0,
+                  }))}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                    <XAxis dataKey="month" tick={{ fontSize: 10 }} />
+                    <YAxis
+                      yAxisId="left"
+                      tick={{ fontSize: 10 }}
+                      allowDecimals={false}
+                    />
+                    <YAxis
+                      yAxisId="right"
+                      orientation="right"
+                      tick={{ fontSize: 10 }}
+                      allowDecimals={false}
+                    />
+                    <Tooltip
+                      formatter={(value, name) => {
+                        if (name === 'nsfFees') return formatCurrency(Number(value) || 0)
+                        return `${value}`
+                      }}
+                      contentStyle={{ fontSize: 12 }}
+                    />
+                    <Bar
+                      yAxisId="left"
+                      dataKey="nsfCount"
+                      name="NSF Events"
+                      radius={[4, 4, 0, 0]}
+                    >
+                      {metrics.monthlyData.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={(entry.nsf?.count || 0) === 0 ? '#22c55e' : (entry.nsf?.count || 0) <= 2 ? '#f59e0b' : '#ef4444'}
+                        />
+                      ))}
+                    </Bar>
+                    <Line
+                      yAxisId="right"
+                      type="monotone"
+                      dataKey="negativeDays"
+                      stroke="#8b5cf6"
+                      strokeWidth={2}
+                      dot={{ r: 4, fill: '#8b5cf6' }}
+                      name="Negative Days"
+                    />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+
+          {/* Row 4: Revenue vs Expenses Comparison */}
+          <div>
+            <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+              <BarChart2 className="h-4 w-4 text-blue-500" />
+              Monthly Revenue vs Expenses Comparison
+            </h4>
+            <div className="h-64 bg-gray-50 rounded-lg p-2">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={metrics.monthlyData.map(m => ({
                   month: m.month,
                   Revenue: m.revenue.total,
                   Expenses: m.expenses.total,
+                  'Net Margin': m.revenue.total - m.expenses.total,
                 }))}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                   <XAxis dataKey="month" tick={{ fontSize: 11 }} />
                   <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-                  <Tooltip formatter={(value) => formatCurrency(Number(value) || 0)} />
+                  <Tooltip
+                    formatter={(value) => formatCurrency(Number(value) || 0)}
+                    contentStyle={{ fontSize: 12 }}
+                  />
+                  <Legend wrapperStyle={{ fontSize: 12 }} />
                   <Bar dataKey="Revenue" fill="#22c55e" radius={[4, 4, 0, 0]} />
                   <Bar dataKey="Expenses" fill="#ef4444" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
-        </CardContent>
+            </CardContent>
+          </CollapsibleContent>
+        </Collapsible>
       </Card>
     </div>
   )
