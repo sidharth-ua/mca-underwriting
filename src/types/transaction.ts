@@ -1,5 +1,8 @@
 export type TransactionType = 'CREDIT' | 'DEBIT'
 
+// Parse quality indicates confidence level of category assignment
+export type ParseQuality = 'HIGH' | 'MEDIUM' | 'LOW' | 'UNASSIGNED'
+
 // Inflow categories
 export type InflowCategory =
   | 'card_processing'
@@ -44,6 +47,9 @@ export interface Transaction {
   runningBalance?: number | null
   category?: TransactionCategory | null
   subcategory?: string | null
+  parseQuality?: ParseQuality | null  // Confidence level of categorization
+  rawCategory?: string | null         // Original tag_category from CSV (audit trail)
+  rawSubcategory?: string | null      // Original tag from CSV (audit trail)
   createdAt: string
   updatedAt: string
 }

@@ -233,6 +233,9 @@ async function processTaggedCSV(
       runningBalance: number
       category: string | null
       subcategory: string | null
+      parseQuality: 'HIGH' | 'MEDIUM' | 'LOW' | 'UNASSIGNED' | null
+      rawCategory: string | null
+      rawSubcategory: string | null
     }> = []
 
     let minDate = new Date()
@@ -342,6 +345,7 @@ async function processTaggedCSV(
 
         let category: string | null = null
         let subcategory: string | null = rawTag
+        let parseQuality: 'HIGH' | 'MEDIUM' | 'LOW' | 'UNASSIGNED' | null = null
 
         // Check if this is DDV format and use the specialized mapper
         if (rawTagCategory && isDDVFormat(rawTagCategory)) {
@@ -349,9 +353,13 @@ async function processTaggedCSV(
           category = mappingResult.normalizedCategory
           // Store the detailed tag as subcategory for MCA name extraction later
           subcategory = rawTag
+          // Convert parseQuality to uppercase for Prisma enum
+          parseQuality = mappingResult.parseQuality.toUpperCase() as 'HIGH' | 'MEDIUM' | 'LOW' | 'UNASSIGNED'
         } else {
           // Fall back to legacy normalizeCategory for non-DDV formats
           category = rawTagCategory ? normalizeCategory(rawTagCategory) : null
+          // Non-DDV formats get LOW quality since we're using fallback logic
+          parseQuality = rawTagCategory ? 'LOW' : null
         }
 
         transactions.push({
@@ -363,6 +371,9 @@ async function processTaggedCSV(
           runningBalance,
           category,
           subcategory,
+          parseQuality,
+          rawCategory: rawTagCategory || null,
+          rawSubcategory: rawTag || null,
         })
       } catch (rowError) {
         console.warn(`Error parsing row ${i}:`, rowError)
@@ -806,6 +817,9 @@ async function simulateDocumentProcessing(documentId: string) {
             runningBalance: Math.max(0, balance),
             category,
             subcategory: null,
+            parseQuality: 'LOW' as const, // Mock data gets LOW quality
+            rawCategory: null,
+            rawSubcategory: null,
           })
         }
       }

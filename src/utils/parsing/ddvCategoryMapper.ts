@@ -22,6 +22,12 @@ const DDV_TAG_CATEGORY_MAP: Record<string, string> = {
   'Income - LFG Counselling': 'counseling_revenue',
   'Income - MCA Disbursal': 'mca_funding',
   'Income - Wired Inflow': 'wire_transfer',
+  'Income - Card Settlement': 'card_processing',
+  'Income - ACH Deposit': 'ach_deposit',
+  'Income - ACH Credit': 'ach_deposit',
+  'Income - Check Deposit': 'check_deposit',
+  'Income - Cash Deposit': 'cash_deposit',
+  'Income - Refund': 'refund',
 
   // Expense categories
   'Expense - MCA Repayment': 'mca_payment',
@@ -47,6 +53,18 @@ const DDV_TAG_CATEGORY_MAP: Record<string, string> = {
   'Expense - Legal (Attorney)': 'professional_services',
   'Expense - Restaurants': 'other_expense',
   'Expense Reversal - Debit Purchases': 'expense_reversal',
+  'Expense - Payroll': 'payroll',
+  'Expense - Salary': 'payroll',
+  'Expense - Owner Draw': 'owner_draw',
+  'Expense - Owner Distribution': 'owner_draw',
+  'Expense - Marketing': 'marketing',
+  'Expense - Advertising': 'marketing',
+  'Expense - Taxes': 'taxes',
+  'Expense - Tax Payment': 'taxes',
+  'Expense - Vendor Payment': 'vendor_payment',
+  'Expense - Inventory': 'inventory',
+  'Expense - Shipping': 'shipping',
+  'Expense - Loan Payment': 'loan_payment',
 
   // Special cases
   '99.UNASSIGNED': 'unassigned',
@@ -72,6 +90,18 @@ const KNOWN_MCA_COMPANIES = [
   'CLEARCO',
   'SQUARE CAPITAL',
   'PAYPAL WORKING',
+  'FORA FINANCIAL',
+  'YELLOWSTONE CAPITAL',
+  'NATIONAL FUNDING',
+  'PIPE',
+  'FORWARD FINANCING',
+  'PEARL CAPITAL',
+  'LIBERTAS',
+  'BIZFI',
+  'FUNDKITE',
+  'KALAMATA',
+  'CLOUDFUND',
+  'ITRIA VENTURES',
 ]
 
 /**
@@ -128,6 +158,21 @@ function fuzzyMatchCategory(
     }
     if (cat.includes('counsell') || cat.includes('lfg')) {
       return 'counseling_revenue'
+    }
+    if (cat.includes('card') && (cat.includes('settlement') || cat.includes('processing'))) {
+      return 'card_processing'
+    }
+    if (cat.includes('ach') && (cat.includes('deposit') || cat.includes('credit'))) {
+      return 'ach_deposit'
+    }
+    if (cat.includes('check') && cat.includes('deposit')) {
+      return 'check_deposit'
+    }
+    if (cat.includes('cash') && cat.includes('deposit')) {
+      return 'cash_deposit'
+    }
+    if (cat.includes('refund')) {
+      return 'refund'
     }
     if (cat.includes('deposit')) {
       return 'ach_deposit'
@@ -190,12 +235,25 @@ function fuzzyMatchCategory(
   if (cat.includes('tax')) {
     return 'taxes'
   }
+  if (cat.includes('vendor') && cat.includes('payment')) {
+    return 'vendor_payment'
+  }
+  if (cat.includes('inventory') || cat.includes('cogs') || cat.includes('supplies')) {
+    return 'inventory'
+  }
+  if (cat.includes('shipping') || cat.includes('freight') || cat.includes('postage')) {
+    return 'shipping'
+  }
+  if (cat.includes('loan') && cat.includes('payment')) {
+    return 'loan_payment'
+  }
 
   return 'other_expense'
 }
 
 /**
  * Map DDV tag and tag_category to normalized internal category
+ * Uses case-insensitive matching for robustness
  */
 export function mapDDVCategory(
   tagCategory: string | null | undefined,
@@ -205,8 +263,8 @@ export function mapDDVCategory(
   const trimmedTagCategory = tagCategory?.trim() || ''
   const trimmedTag = tag?.trim() || ''
 
-  // Handle 99.UNASSIGNED explicitly
-  if (trimmedTagCategory === '99.UNASSIGNED' || trimmedTag === '99.UNASSIGNED') {
+  // Handle 99.UNASSIGNED explicitly (case-insensitive)
+  if (trimmedTagCategory.toLowerCase() === '99.unassigned' || trimmedTag.toLowerCase() === '99.unassigned') {
     return {
       normalizedCategory: transactionType === 'CREDIT' ? 'unassigned_income' : 'unassigned_expense',
       mcaMerchantName: null,
@@ -215,13 +273,13 @@ export function mapDDVCategory(
     }
   }
 
-  // Check for expense reversal
-  const isExpenseReversal = trimmedTagCategory.includes('Reversal') || trimmedTag.includes('Reversal')
+  // Check for expense reversal (case-insensitive)
+  const isExpenseReversal = trimmedTagCategory.toLowerCase().includes('reversal') || trimmedTag.toLowerCase().includes('reversal')
 
   // Extract MCA merchant name from the detailed Tag field
   const mcaMerchantName = extractMCAMerchantName(trimmedTag)
 
-  // Direct lookup in mapping table
+  // Direct lookup in mapping table (try exact match first)
   if (DDV_TAG_CATEGORY_MAP[trimmedTagCategory]) {
     return {
       normalizedCategory: DDV_TAG_CATEGORY_MAP[trimmedTagCategory],
@@ -231,7 +289,21 @@ export function mapDDVCategory(
     }
   }
 
+  // Try case-insensitive lookup in mapping table
+  const tagCategoryLower = trimmedTagCategory.toLowerCase()
+  for (const [key, value] of Object.entries(DDV_TAG_CATEGORY_MAP)) {
+    if (key.toLowerCase() === tagCategoryLower) {
+      return {
+        normalizedCategory: value,
+        mcaMerchantName,
+        parseQuality: 'high',
+        isExpenseReversal,
+      }
+    }
+  }
+
   // Fallback: Parse the tag_category pattern "Income - X" or "Expense - X"
+  // Also handle variations like "Income-X" without spaces
   const ddvPattern = /^(Income|Expense)\s*-\s*(.+)$/i
   const match = trimmedTagCategory.match(ddvPattern)
 
@@ -261,16 +333,46 @@ export function mapDDVCategory(
 
 /**
  * Check if a category is DDV format
+ * Case-insensitive and handles variations like "Income-", "income - ", etc.
  */
 export function isDDVFormat(tagCategory: string | null | undefined): boolean {
   if (!tagCategory) return false
-  const trimmed = tagCategory.trim()
+  const trimmed = tagCategory.trim().toLowerCase()
   return (
-    trimmed.startsWith('Income - ') ||
-    trimmed.startsWith('Expense - ') ||
-    trimmed.startsWith('Expense Reversal - ') ||
-    trimmed === '99.UNASSIGNED'
+    trimmed.startsWith('income -') ||
+    trimmed.startsWith('income-') ||
+    trimmed.startsWith('expense -') ||
+    trimmed.startsWith('expense-') ||
+    trimmed.startsWith('expense reversal -') ||
+    trimmed.startsWith('expense reversal-') ||
+    trimmed === '99.unassigned'
   )
+}
+
+/**
+ * Check if a normalized category is valid (exists in CATEGORY_MAPPINGS)
+ * This helps validate that our mapping produced a known category
+ */
+export function isValidNormalizedCategory(category: string | null | undefined): boolean {
+  if (!category) return false
+  // Check against known categories from the DDV_TAG_CATEGORY_MAP values
+  const validCategories = new Set([
+    // Income categories
+    'state_payment', 'zelle_income', 'counseling_revenue', 'mca_funding', 'wire_transfer',
+    'card_processing', 'ach_deposit', 'check_deposit', 'cash_deposit', 'refund',
+    // Expense categories
+    'mca_payment', 'software_subscriptions', 'utilities', 'travel_entertainment', 'rent',
+    'personal_expense', 'business_expense', 'bank_fee', 'zelle_payment', 'settlement',
+    'professional_services', 'insurance', 'other_expense', 'electronic_withdrawal',
+    'atm_withdrawal', 'nsf_fee', 'credit_card_payment', 'expense_reversal',
+    'payroll', 'owner_draw', 'marketing', 'taxes', 'vendor_payment', 'inventory',
+    'shipping', 'loan_payment',
+    // Unassigned
+    'unassigned', 'unassigned_income', 'unassigned_expense',
+    // Fallback categories
+    'other_income', 'other_expense',
+  ])
+  return validCategories.has(category)
 }
 
 /**

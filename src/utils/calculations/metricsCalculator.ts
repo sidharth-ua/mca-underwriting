@@ -3,6 +3,8 @@
  * Handles multiple months of transaction data from multiple CSV/PDF sources
  */
 
+export type ParseQualityType = 'HIGH' | 'MEDIUM' | 'LOW' | 'UNASSIGNED'
+
 export interface Transaction {
   id: string
   date: string | Date
@@ -12,6 +14,21 @@ export interface Transaction {
   runningBalance: number
   category?: string | null
   subcategory?: string | null
+  parseQuality?: ParseQualityType | null
+  rawCategory?: string | null
+  rawSubcategory?: string | null
+}
+
+export interface DataQuality {
+  totalTransactions: number
+  highConfidence: number      // Count with parseQuality = HIGH
+  mediumConfidence: number    // Count with parseQuality = MEDIUM
+  lowConfidence: number       // Count with parseQuality = LOW
+  unassigned: number          // Count with parseQuality = UNASSIGNED
+  noQuality: number           // Count with no parseQuality (legacy/null)
+  accuracyScore: number       // (high + medium) / total * 100
+  hasAccuracyWarning: boolean // true if low > 5% or unassigned > 10%
+  lowConfidenceCategories: string[] // List of categories flagged as low confidence
 }
 
 export interface MonthlyMetrics {
@@ -156,6 +173,9 @@ export interface AggregatedMetrics {
     cashFlow: number
     overall: number
   }
+
+  // Data quality metrics for accuracy tracking
+  dataQuality: DataQuality
 }
 
 // Category mapping for classification - includes DDV normalized categories
@@ -975,7 +995,7 @@ function calculateMonthlyMetrics(transactions: Transaction[], monthKey: string):
 /**
  * Calculate scores based on CLAUDE.md guidelines
  */
-function calculateScores(metrics: Omit<AggregatedMetrics, 'scores'>): AggregatedMetrics['scores'] {
+function calculateScores(metrics: Omit<AggregatedMetrics, 'scores' | 'dataQuality'>): AggregatedMetrics['scores'] {
   // Revenue Score (0-100) - per CLAUDE.md
   // Base: 70 points
   let revenueScore = 70
@@ -1149,6 +1169,67 @@ function convertTrendForNSF(trend: 'IMPROVING' | 'STABLE' | 'DECLINING'): 'IMPRO
   if (trend === 'DECLINING') return 'IMPROVING' // Declining NSF count is good
   if (trend === 'IMPROVING') return 'WORSENING' // Increasing NSF count is bad
   return 'STABLE'
+}
+
+/**
+ * Calculate data quality metrics from transactions
+ */
+function calculateDataQuality(transactions: Transaction[]): DataQuality {
+  let highConfidence = 0
+  let mediumConfidence = 0
+  let lowConfidence = 0
+  let unassigned = 0
+  let noQuality = 0
+  const lowConfidenceCategories = new Set<string>()
+
+  for (const txn of transactions) {
+    switch (txn.parseQuality) {
+      case 'HIGH':
+        highConfidence++
+        break
+      case 'MEDIUM':
+        mediumConfidence++
+        break
+      case 'LOW':
+        lowConfidence++
+        // Track what categories are getting LOW quality
+        if (txn.category) {
+          lowConfidenceCategories.add(txn.category)
+        }
+        break
+      case 'UNASSIGNED':
+        unassigned++
+        break
+      default:
+        noQuality++
+    }
+  }
+
+  const totalTransactions = transactions.length
+  const totalWithQuality = highConfidence + mediumConfidence + lowConfidence + unassigned
+
+  // Accuracy score: percentage of transactions with high or medium confidence
+  // If no quality tracking exists, default to 0
+  const accuracyScore = totalWithQuality > 0
+    ? ((highConfidence + mediumConfidence) / totalWithQuality) * 100
+    : (noQuality === totalTransactions ? 0 : 100) // All no quality = 0, otherwise assume 100
+
+  // Warning flag: low > 5% or unassigned > 10%
+  const lowPct = totalWithQuality > 0 ? lowConfidence / totalWithQuality : 0
+  const unassignedPct = totalWithQuality > 0 ? unassigned / totalWithQuality : 0
+  const hasAccuracyWarning = lowPct > 0.05 || unassignedPct > 0.10
+
+  return {
+    totalTransactions,
+    highConfidence,
+    mediumConfidence,
+    lowConfidence,
+    unassigned,
+    noQuality,
+    accuracyScore: Math.round(accuracyScore * 10) / 10, // Round to 1 decimal
+    hasAccuracyWarning,
+    lowConfidenceCategories: Array.from(lowConfidenceCategories).sort(),
+  }
 }
 
 /**
@@ -1387,9 +1468,13 @@ export function calculateAggregatedMetrics(transactions: Transaction[]): Aggrega
   // Calculate scores
   const scores = calculateScores(partialResult)
 
+  // Calculate data quality metrics
+  const dataQuality = calculateDataQuality(sortedTxns)
+
   return {
     ...partialResult,
     scores,
+    dataQuality,
   }
 }
 
