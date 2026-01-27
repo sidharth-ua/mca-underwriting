@@ -26,6 +26,7 @@ import { formatCurrency } from '@/utils/calculations/scoringFramework'
 interface RevenueSectionProps {
   section: SectionScore
   metrics: AggregatedMetrics
+  dealId?: string
 }
 
 const CHART_COLORS = ['#22c55e', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4']
@@ -42,7 +43,7 @@ function getGaugeColor(value: number, thresholds: { good: number; fair: number }
   return '#ef4444'
 }
 
-export function RevenueSection({ section, metrics }: RevenueSectionProps) {
+export function RevenueSection({ section, metrics, dealId }: RevenueSectionProps) {
   // Prepare monthly revenue trend data
   const monthlyTrendData = useMemo(() => {
     return metrics.monthlyData.map((m) => ({

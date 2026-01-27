@@ -15,6 +15,7 @@ import {
   BarChart3,
   XCircle,
   HelpCircle,
+  Brain,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -37,6 +38,7 @@ import { PDFViewer } from '@/components/pdf-viewer'
 import { QuickPeek } from '@/components/flashcards'
 import { Scorecard } from '@/components/scorecard'
 import { TransactionList } from '@/components/common/TransactionList'
+import { AgenticScorecardTab } from '@/components/scorecard/agentic'
 import { useDeal, useDeleteDeal, useUpdateDeal } from '@/hooks/useDeals'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -387,6 +389,10 @@ export default function DealDetailPage({ params }: { params: Promise<{ id: strin
             <BarChart3 className="mr-1 h-4 w-4" />
             Analysis
           </TabsTrigger>
+          <TabsTrigger value="agentic" disabled={!hasReadyDocuments}>
+            <Brain className="mr-1 h-4 w-4" />
+            Agentic Analysis
+          </TabsTrigger>
           <TabsTrigger value="activity">
             <Clock className="mr-1 h-4 w-4" />
             Activity
@@ -516,6 +522,11 @@ export default function DealDetailPage({ params }: { params: Promise<{ id: strin
               </CardContent>
             </Card>
           )}
+        </TabsContent>
+
+        {/* Agentic Analysis Tab */}
+        <TabsContent value="agentic" className="mt-4">
+          <AgenticScorecardTab dealId={id} transactions={sortedTransactions} />
         </TabsContent>
 
         {/* Activity Tab */}
