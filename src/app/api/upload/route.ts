@@ -91,21 +91,11 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Log activity
-    await prisma.dealActivity.create({
-      data: {
-        dealId,
-        userId: session.user.id,
-        action: 'DOCUMENT_UPLOADED',
-        details: `Uploaded ${isCSV ? 'CSV' : 'PDF'} file: ${file.name}`,
-      },
-    })
-
     // Process based on file type
     if (isCSV) {
       // Parse CSV immediately and store transactions
       const csvContent = buffer.toString('utf-8')
-      await processTaggedCSV(document.id, csvContent, dealId, session.user.id)
+      await processTaggedCSV(document.id, csvContent, dealId)
     } else {
       // Trigger mock PDF processing
       simulateDocumentProcessing(document.id)
@@ -125,8 +115,7 @@ export async function POST(request: NextRequest) {
 async function processTaggedCSV(
   documentId: string,
   csvContent: string,
-  dealId: string,
-  userId: string
+  dealId: string
 ) {
   try {
     // Update status to parsing
@@ -398,16 +387,6 @@ async function processTaggedCSV(
     await prisma.document.update({
       where: { id: documentId },
       data: { status: 'READY' },
-    })
-
-    // Log activity
-    await prisma.dealActivity.create({
-      data: {
-        dealId,
-        userId,
-        action: 'CSV_PROCESSED',
-        details: `Imported ${transactions.length} transactions from CSV`,
-      },
     })
 
     // Check if all documents are ready and update deal status
