@@ -1,7 +1,6 @@
 'use client'
 
-import { useSession, signOut } from 'next-auth/react'
-import { LogOut, User, Search } from 'lucide-react'
+import { User, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -19,14 +18,6 @@ interface HeaderProps {
 }
 
 export function Header({ title = 'Dashboard' }: HeaderProps) {
-  const { data: session } = useSession()
-
-  const initials = session?.user?.name
-    ?.split(' ')
-    .map((n) => n[0])
-    .join('')
-    .toUpperCase() || 'U'
-
   return (
     <header className="h-16 border-b bg-white flex items-center justify-between px-6">
       <div className="flex items-center gap-4">
@@ -43,13 +34,13 @@ export function Header({ title = 'Dashboard' }: HeaderProps) {
           />
         </div>
 
-        {/* User dropdown */}
+        {/* User avatar */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
               <Avatar>
                 <AvatarFallback className="bg-gray-900 text-white">
-                  {initials}
+                  U
                 </AvatarFallback>
               </Avatar>
             </Button>
@@ -57,22 +48,14 @@ export function Header({ title = 'Dashboard' }: HeaderProps) {
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium">{session?.user?.name}</p>
-                <p className="text-xs text-gray-500">{session?.user?.email}</p>
+                <p className="text-sm font-medium">Underwriter</p>
+                <p className="text-xs text-gray-500">MCA Platform</p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <User className="mr-2 h-4 w-4" />
               Profile
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => signOut({ callbackUrl: '/login' })}
-              className="text-red-600"
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              Sign out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
