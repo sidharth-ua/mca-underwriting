@@ -5,11 +5,6 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions)
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     // Get current month date range
     const now = new Date()
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)

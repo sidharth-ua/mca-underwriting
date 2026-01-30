@@ -18,11 +18,6 @@ const ALLOWED_TYPES = [
 // POST /api/upload - Upload a PDF or CSV file for a deal
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     const formData = await request.formData()
     const file = formData.get('file') as File | null
     const dealId = formData.get('dealId') as string | null

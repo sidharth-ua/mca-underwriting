@@ -1,0 +1,25 @@
+Income categories
+	Sales Revenue: Money received from customers for products or services. (Income - Sale of Goods)
+	Service Revenue: Money received for the labour/services rendered. (Income - Sale of Services)
+	Other Business Income: Includes revenue from sources not directly related to primary sales, such as interest earned or asset sales. (Income - OBI)
+	Transfers: Funds moved from other business or personal accounts, including wires. (Income - Transfers)
+	Checks: Income via check deposits (Income - Check Deposits)
+        Loan Inflows: Inflows from loans (Income - Loan Inflows)
+
+Expense categories
+	Cost of Goods Sold (COGS): Direct expenses related to producing or purchasing the goods or services sold by the business. (Expense - COGS)
+	Operating expenses: The costs of day-to-day business operations.
+		Rent: Payments for office space, retail space, autos or equipment. (Expense - Rent)
+		Utilities: Bills for electricity, gas, water, internet, and phone. (Expense - Utilities)
+		Payroll: Salaries, wages, and associated taxes and benefits for employees.
+		Marketing and advertising: Costs for promotions, ad campaigns, and branding. (Expense - Marketing and Advertising)
+		Professional fees: Payments for legal, accounting, and consulting services. (Expense - Professional Fees)
+		Travel and entertainment: Expenses for business trips, client meals, and events. (Expense - Travel and Entertainment)
+		Software and Subscriptions: Fees for business software, cloud services, and other subscriptions. (Expense - Software and Subscriptions)
+		Office supplies: Costs for stationery, postage, and other general office materials.
+		Repairs and maintenance: Expenses for fixing and maintaining equipment, buildings, and other assets.
+		Insurance: Premiums for various business, health, and liability insurance policies. (Expense - Insurance)
+		Loan and interest payments: Payments on loans, credit cards, or other financing products. (Expense - Loan and Interest Payments)
+		Taxes: Various business taxes, including sales tax and property tax.
+		Bank fees: Service charges and fees from financial institutions including card processors (Expense - Bank Fees)
+                Transfers: Funds moved to other business or personal accounts, including wires. (Expense - Transfers)

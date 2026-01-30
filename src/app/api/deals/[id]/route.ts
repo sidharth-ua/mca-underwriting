@@ -17,11 +17,6 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions)
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     const { id } = await params
 
     const deal = await prisma.deal.findUnique({
@@ -83,11 +78,6 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions)
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     const { id } = await params
     const body = await request.json()
     const validatedData = updateDealSchema.parse(body)
@@ -101,30 +91,6 @@ export async function PATCH(
       where: { id },
       data: validatedData,
     })
-
-    // Log activity for status changes
-    if (validatedData.status && validatedData.status !== existingDeal.status) {
-      await prisma.dealActivity.create({
-        data: {
-          dealId: id,
-          userId: session.user.id,
-          action: 'STATUS_CHANGED',
-          details: `Status changed from ${existingDeal.status} to ${validatedData.status}`,
-        },
-      })
-    }
-
-    // Log activity for decisions
-    if (validatedData.decision) {
-      await prisma.dealActivity.create({
-        data: {
-          dealId: id,
-          userId: session.user.id,
-          action: 'DECISION_MADE',
-          details: `Decision: ${validatedData.decision}`,
-        },
-      })
-    }
 
     return NextResponse.json(deal)
   } catch (error) {
@@ -148,11 +114,6 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions)
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     const { id } = await params
 
     const existingDeal = await prisma.deal.findUnique({ where: { id } })

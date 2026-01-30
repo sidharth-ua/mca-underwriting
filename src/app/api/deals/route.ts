@@ -11,11 +11,6 @@ const createDealSchema = z.object({
 // GET /api/deals - List all deals
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     const { searchParams } = new URL(request.url)
     const status = searchParams.get('status')
     const search = searchParams.get('search')
@@ -66,11 +61,6 @@ export async function GET(request: NextRequest) {
 // POST /api/deals - Create a new deal
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     const body = await request.json()
     const validatedData = createDealSchema.parse(body)
 
@@ -78,17 +68,6 @@ export async function POST(request: NextRequest) {
       data: {
         merchantName: validatedData.merchantName,
         status: 'NEW',
-        assignedToId: session.user.id,
-      },
-    })
-
-    // Create activity log
-    await prisma.dealActivity.create({
-      data: {
-        dealId: deal.id,
-        userId: session.user.id,
-        action: 'CREATED',
-        details: `Deal created for ${validatedData.merchantName}`,
       },
     })
 
