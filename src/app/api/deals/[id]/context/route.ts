@@ -10,12 +10,16 @@ import { authOptions } from '@/lib/auth'
 import { calculateAggregatedMetrics, type Transaction as MetricTransaction } from '@/utils/calculations/metricsCalculator'
 import { calculateOverallScorecard, getOverallSummary } from '@/utils/calculations/overallScorecard'
 import type { DealChatContext } from '@/types/chat'
-import type { Document, BankAccount, Transaction } from '@prisma/client'
+import type { Document, BankAccount, Transaction, DealNote, User } from '@prisma/client'
 
 interface DocumentWithBankAccounts extends Document {
   bankAccounts: (BankAccount & {
     transactions: Transaction[]
   })[]
+}
+
+interface DealNoteWithUser extends DealNote {
+  user: User | null
 }
 
 export async function GET(
@@ -62,7 +66,12 @@ async function loadDealContext(dealId: string): Promise<DealChatContext | null> 
           }
         }
       },
-      metrics: true
+      metrics: true,
+      notes: {
+        include: { user: true },
+        orderBy: { createdAt: 'desc' },
+        take: 10 // Limit for context
+      }
     }
   })
 
@@ -235,7 +244,27 @@ async function loadDealContext(dealId: string): Promise<DealChatContext | null> 
             nsfCount: m.nsf.count,
             negativeDays: m.nsf.negativeBalanceDays
           })),
-          scorecard
+          scorecard,
+          // Phase 1 Deal Context Enhancement
+          bankAccounts: extractBankAccountContext(deal.documents as DocumentWithBankAccounts[]),
+          dataQuality: aggregatedMetrics.dataQuality ? {
+            totalTransactions: aggregatedMetrics.dataQuality.totalTransactions,
+            highConfidence: aggregatedMetrics.dataQuality.highConfidence,
+            mediumConfidence: aggregatedMetrics.dataQuality.mediumConfidence,
+            lowConfidence: aggregatedMetrics.dataQuality.lowConfidence,
+            unassigned: aggregatedMetrics.dataQuality.unassigned,
+            categorizedPercentage: aggregatedMetrics.dataQuality.totalTransactions > 0
+              ? Math.round(
+                ((aggregatedMetrics.dataQuality.highConfidence + aggregatedMetrics.dataQuality.mediumConfidence)
+                / aggregatedMetrics.dataQuality.totalTransactions) * 100
+              )
+              : 0,
+            hasWarning: aggregatedMetrics.dataQuality.hasAccuracyWarning,
+            warningMessage: aggregatedMetrics.dataQuality.hasAccuracyWarning
+              ? `${aggregatedMetrics.dataQuality.unassigned} transactions uncategorized`
+              : undefined
+          } : undefined,
+          workflow: extractWorkflowContext(deal.notes as DealNoteWithUser[])
         }
       }
     } catch (e) {
@@ -245,6 +274,10 @@ async function loadDealContext(dealId: string): Promise<DealChatContext | null> 
   } else {
     analytics = getBasicAnalytics([])
   }
+
+  // Add bank account and workflow context even for basic analytics
+  analytics.bankAccounts = extractBankAccountContext(deal.documents as DocumentWithBankAccounts[])
+  analytics.workflow = extractWorkflowContext(deal.notes as DealNoteWithUser[])
 
   // Return context without transactions for lighter payload
   return {
@@ -298,5 +331,44 @@ function getBasicAnalytics(transactions: DealChatContext['transactions']): DealC
       lowestBalance: 0
     },
     monthlyData: []
+  }
+}
+
+/**
+ * Extract bank account context from documents
+ */
+function extractBankAccountContext(documents: DocumentWithBankAccounts[]): DealChatContext['analytics']['bankAccounts'] {
+  const accounts = documents.flatMap((doc) =>
+    doc.bankAccounts.map((ba) => ({
+      bankName: ba.bankName,
+      accountType: ba.accountType || undefined,
+      accountNumberMasked: ba.accountNumber
+        ? `****${ba.accountNumber.slice(-4)}`
+        : undefined,
+      statementPeriod: {
+        start: ba.startDate?.toISOString() || '',
+        end: ba.endDate?.toISOString() || ''
+      },
+      transactionCount: ba.transactions.length
+    }))
+  )
+
+  return {
+    count: accounts.length,
+    accounts
+  }
+}
+
+/**
+ * Extract workflow context from notes
+ */
+function extractWorkflowContext(notes: DealNoteWithUser[]): DealChatContext['analytics']['workflow'] {
+  return {
+    notes: notes.map((n) => ({
+      content: n.content,
+      author: n.user?.name || n.user?.email || 'Unknown',
+      createdAt: n.createdAt.toISOString()
+    })),
+    notesCount: notes.length
   }
 }

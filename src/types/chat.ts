@@ -98,5 +98,34 @@ export interface DealChatContext {
         description: string
       }>
     }
+    // Phase 1 Deal Context Enhancement
+    bankAccounts?: {
+      count: number
+      accounts: Array<{
+        bankName: string
+        accountType?: string
+        accountNumberMasked?: string // "****1234"
+        statementPeriod: { start: string; end: string }
+        transactionCount: number
+      }>
+    }
+    dataQuality?: {
+      totalTransactions: number
+      highConfidence: number
+      mediumConfidence: number
+      lowConfidence: number
+      unassigned: number
+      categorizedPercentage: number
+      hasWarning: boolean
+      warningMessage?: string
+    }
+    workflow?: {
+      notes: Array<{
+        content: string
+        author: string
+        createdAt: string
+      }>
+      notesCount: number
+    }
   }
 }

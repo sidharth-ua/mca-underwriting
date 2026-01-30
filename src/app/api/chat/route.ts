@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import OpenAI from 'openai'
+import Anthropic from '@anthropic-ai/sdk'
 import { prisma } from '@/lib/prisma'
 import { buildSystemPrompt } from '@/lib/chat/buildSystemPrompt'
 import { calculateAggregatedMetrics, type Transaction as MetricTransaction } from '@/utils/calculations/metricsCalculator'
@@ -12,7 +12,9 @@ import { calculateOverallScorecard, getOverallSummary } from '@/utils/calculatio
 import type { DealChatContext } from '@/types/chat'
 import type { Document, BankAccount, Transaction } from '@prisma/client'
 
-const openai = new OpenAI()
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY
+})
 
 interface DocumentWithBankAccounts extends Document {
   bankAccounts: (BankAccount & {
@@ -45,9 +47,8 @@ export async function POST(request: NextRequest) {
     // Build system prompt with full deal context
     const systemPrompt = buildSystemPrompt(context)
 
-    // Build messages array for OpenAI
-    const messages: Array<{ role: 'system' | 'user' | 'assistant'; content: string }> = [
-      { role: 'system', content: systemPrompt },
+    // Build messages array for Anthropic (system is separate)
+    const messages: Array<{ role: 'user' | 'assistant'; content: string }> = [
       ...conversationHistory.map((msg: { role: string; content: string }) => ({
         role: msg.role as 'user' | 'assistant',
         content: msg.content
@@ -55,12 +56,12 @@ export async function POST(request: NextRequest) {
       { role: 'user', content: message }
     ]
 
-    // Create streaming response
-    const stream = await openai.chat.completions.create({
-      model: 'gpt-4o',
+    // Create streaming response with Anthropic
+    const stream = anthropic.messages.stream({
+      model: 'claude-sonnet-4-20250514',
       max_tokens: 4096,
-      messages: messages,
-      stream: true
+      system: systemPrompt,
+      messages: messages
     })
 
     // Convert to web ReadableStream for Next.js
@@ -69,17 +70,19 @@ export async function POST(request: NextRequest) {
     const readableStream = new ReadableStream({
       async start(controller) {
         try {
-          for await (const chunk of stream) {
-            const content = chunk.choices[0]?.delta?.content
-            if (content) {
-              // Send SSE format (matching the format expected by the frontend)
-              const data = JSON.stringify({
-                type: 'content_block_delta',
-                delta: { text: content }
-              })
-              controller.enqueue(encoder.encode(`data: ${data}\n\n`))
+          for await (const event of stream) {
+            if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
+              const content = event.delta.text
+              if (content) {
+                // Send SSE format (matching the format expected by the frontend)
+                const data = JSON.stringify({
+                  type: 'content_block_delta',
+                  delta: { text: content }
+                })
+                controller.enqueue(encoder.encode(`data: ${data}\n\n`))
+              }
             }
-            if (chunk.choices[0]?.finish_reason === 'stop') {
+            if (event.type === 'message_stop') {
               controller.enqueue(encoder.encode('data: [DONE]\n\n'))
             }
           }

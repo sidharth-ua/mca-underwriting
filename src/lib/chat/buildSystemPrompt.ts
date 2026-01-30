@@ -48,6 +48,12 @@ ${analytics.mca.mcaNames.length > 0 ? `- Lenders: ${analytics.mca.mcaNames.join(
 - Negative Balance Days: ${analytics.nsf.negativeBalanceDays}
 - Lowest Balance: $${formatNumber(analytics.nsf.lowestBalance)}
 
+${analytics.bankAccounts ? formatBankAccounts(analytics.bankAccounts) : ''}
+
+${analytics.dataQuality ? formatDataQuality(analytics.dataQuality) : ''}
+
+${analytics.workflow?.notes.length ? formatWorkflowNotes(analytics.workflow) : ''}
+
 ${analytics.scorecard ? formatScorecard(analytics.scorecard) : ''}
 
 ## MONTHLY BREAKDOWN
@@ -264,5 +270,68 @@ function formatRecentTransactions(transactions: DealChatContext['transactions'])
     output += `| ${date} | ${type} | ${cat} | ${desc} | $${formatNumber(amount)} | $${formatNumber(t.runningBalance)} |\n`
   }
 
+  return output
+}
+
+/**
+ * Format bank account context for system prompt
+ */
+function formatBankAccounts(bankAccounts: NonNullable<DealChatContext['analytics']['bankAccounts']>): string {
+  if (bankAccounts.count === 0) return ''
+
+  let output = `## BANK STATEMENTS ANALYZED
+- Accounts: ${bankAccounts.count}
+
+`
+  for (const acct of bankAccounts.accounts) {
+    const period = acct.statementPeriod.start && acct.statementPeriod.end
+      ? `${new Date(acct.statementPeriod.start).toLocaleDateString()} - ${new Date(acct.statementPeriod.end).toLocaleDateString()}`
+      : 'Period unknown'
+
+    output += `### ${acct.bankName}${acct.accountNumberMasked ? ` (${acct.accountNumberMasked})` : ''}
+- Type: ${acct.accountType || 'Unknown'}
+- Period: ${period}
+- Transactions: ${acct.transactionCount}
+
+`
+  }
+  return output
+}
+
+/**
+ * Format data quality metrics for system prompt
+ */
+function formatDataQuality(quality: NonNullable<DealChatContext['analytics']['dataQuality']>): string {
+  const highPct = quality.totalTransactions > 0
+    ? Math.round((quality.highConfidence / quality.totalTransactions) * 100)
+    : 0
+  const mediumPct = quality.totalTransactions > 0
+    ? Math.round((quality.mediumConfidence / quality.totalTransactions) * 100)
+    : 0
+
+  return `## DATA QUALITY
+- Total Transactions: ${quality.totalTransactions}
+- Categorized: ${quality.categorizedPercentage}%
+  - High Confidence: ${quality.highConfidence} (${highPct}%)
+  - Medium Confidence: ${quality.mediumConfidence} (${mediumPct}%)
+  - Low Confidence: ${quality.lowConfidence}
+  - Uncategorized: ${quality.unassigned}
+${quality.hasWarning ? `⚠️ Warning: ${quality.warningMessage}` : '✓ Data quality is good'}
+`
+}
+
+/**
+ * Format workflow notes for system prompt
+ */
+function formatWorkflowNotes(workflow: NonNullable<DealChatContext['analytics']['workflow']>): string {
+  if (workflow.notes.length === 0) return ''
+
+  let output = `## UNDERWRITER NOTES (${workflow.notesCount})
+`
+  for (const note of workflow.notes.slice(0, 5)) {
+    const date = new Date(note.createdAt).toLocaleDateString()
+    output += `- [${date}] ${note.author}: "${note.content.slice(0, 100)}${note.content.length > 100 ? '...' : ''}"
+`
+  }
   return output
 }

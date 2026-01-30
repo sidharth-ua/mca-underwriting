@@ -153,7 +153,7 @@ export default function SectionDetailPage({
   const renderSectionContent = () => {
     switch (sectionKey) {
       case 'revenueQuality':
-        return <RevenueSection section={sectionData} metrics={metrics} />
+        return <RevenueSection section={sectionData} metrics={metrics} dealId={id} />
       case 'expenseQuality':
         return <ExpenseSection section={sectionData} metrics={metrics} />
       case 'existingDebtImpact':
